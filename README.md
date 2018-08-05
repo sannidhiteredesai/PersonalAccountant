@@ -1,1 +1,1 @@
-# PersonalAccountant
+# PersonalAccountant for handling your accounting stuff
