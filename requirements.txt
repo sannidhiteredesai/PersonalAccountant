@@ -1,0 +1,3 @@
+pytest==3.7.1
+pytest-cov==2.5.1
+pip-autoremove==0.9.1
