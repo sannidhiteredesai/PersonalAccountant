@@ -9,7 +9,7 @@ class BankCollection:
 
     def get_all_bank_details(self):
         """
-        Returns details of all banks in the form
+        This method returns details of all banks in the form [type - list(dict)]:
         list({
             'bank_name': 'value',
             'bank_branch': 'value',
@@ -20,9 +20,30 @@ class BankCollection:
         return copy_of(self.banks)
 
     def add(self, bank):
+        """
+        This method takes bank as an input in the form [type - dict]:
+        {
+            'bank_name': 'value',
+            'bank_branch': 'value',
+            'bank_address': 'value',
+            'bank_timings': 'value',
+        }
+        and if all the bank's details are valid then stores it in the collection
+        """
         self._check_bank_has_all_details(bank)
         self._check_proper_bank_timings_on_all_days(bank['bank_timings'])
         self.banks.append(bank)
+
+    def get_bank_open_days(self, bank_name):
+        """
+        This method return all the days on which given bank is open
+        @param:  bank_name [type - str]
+        @retuns: day_names [type - set(str)]
+        """
+        for bank in self.banks:
+            if bank['bank_name'] == bank_name:
+                return {day[0].name for day in bank['bank_timings']}
+        return {}
 
     @staticmethod
     def _is_valid_hrs_and_mins(time_):
@@ -46,9 +67,9 @@ class BankCollection:
     def _time_in_24_hr(hrs_colon_mins, am_or_pm):
         """
         This method converts 12 hr clock format time to 24 hr clock format
-            @param hrs_colon_mins: string in 12 hr clock format
-            @param am_or_pm: string 'AM' or 'PM'
-            @return: 24 hr string representation of input time
+        @param hrs_colon_mins: string in 12 hr clock format
+        @param am_or_pm: string 'AM' or 'PM'
+        @return: 24 hr string representation of input time
         """
         return time.strftime(
             '%H:%M', 
@@ -88,6 +109,9 @@ class BankCollection:
         pass
 
     class InValidBankTimings(Exception):
+        pass
+
+    class OverlappingBankTimings(Exception):
         pass
 
 class Day(Enum):
