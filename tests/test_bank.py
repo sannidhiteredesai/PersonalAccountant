@@ -20,9 +20,7 @@ def test_insufficient_information_exception():
         banks = BankCollection()
         banks.add({
             'bank_branch': '',
-            'bank_address': '',
-            'bank_timings': '',
-        })  # bank_name is missing
+        })
 
 
 def test_timing_must_be_in_12_hour_clock_format():
@@ -32,8 +30,14 @@ def test_timing_must_be_in_12_hour_clock_format():
         banks.add({
             'bank_name': 'ABC Bank',
             'bank_branch': 'ABC Branch',
+            'bank_branch_code': 'ABC01',
             'bank_address': 'Address of bank',
             'bank_timings': bank_open_on,
+            'bank_ifsc_code': 'IFSCCODE',
+            'bank_micr_code': 'MICRCODE',
+            'bank_phone_numbers': [],
+            'bank_email': 'email',
+            'bank_website': 'website',
         })
 
 
@@ -44,22 +48,14 @@ def test_open_time_is_before_close_time():
         banks.add({
             'bank_name': 'ABC Bank',
             'bank_branch': 'ABC Branch',
+            'bank_branch_code': 'ABC01',
             'bank_address': 'Address of bank',
             'bank_timings': bank_open_on,
-        })
-
-
-@pytest.mark.skip('Yet to be implemented')
-def test_timings_for_a_day_do_not_overlap():
-    with pytest.raises(BankCollection.OverlappingBankTimings):
-        banks = BankCollection()
-        bank_open_on = [(Day.MONDAY, '8:30', Time.AM, '12:30', Time.PM),
-                        (Day.MONDAY, '9:30', Time.AM, '1:30', Time.PM)]
-        banks.add({
-            'bank_name': 'ABC Bank',
-            'bank_branch': 'ABC Branch',
-            'bank_address': 'Address of bank',
-            'bank_timings': bank_open_on,
+            'bank_ifsc_code': 'IFSCCODE',
+            'bank_micr_code': 'MICRCODE',
+            'bank_phone_numbers': [],
+            'bank_email': 'email',
+            'bank_website': 'website',
         })
 
 
@@ -69,8 +65,14 @@ def test_add_valid_bank_is_successful():
     bank = {
         'bank_name': 'ABC Bank',
         'bank_branch': 'ABC Branch',
+        'bank_branch_code': 'ABC01',
         'bank_address': 'Address of bank',
         'bank_timings': bank_open_on,
+        'bank_ifsc_code': 'IFSCCODE',
+        'bank_micr_code': 'MICRCODE',
+        'bank_phone_numbers': [],
+        'bank_email': 'email',
+        'bank_website': 'website',
     }
     banks.add(bank)
     assert banks.get_all_bank_details()[0] == bank
@@ -86,8 +88,14 @@ def test_bank_open_on_which_all_days():
     banks.add({
         'bank_name': 'ABC Bank',
         'bank_branch': 'ABC Branch',
+        'bank_branch_code': 'ABC01',
         'bank_address': 'Address of bank',
         'bank_timings': bank_open_on,
+        'bank_ifsc_code': 'IFSCCODE',
+        'bank_micr_code': 'MICRCODE',
+        'bank_phone_numbers': [],
+        'bank_email': 'email',
+        'bank_website': 'website',
     })
 
     assert banks.get_bank_open_days('ABC Bank') == {'MONDAY', 'TUESDAY', 'WEDNESDAY'}

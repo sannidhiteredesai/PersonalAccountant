@@ -13,8 +13,14 @@ class BankCollection:
         list({
             'bank_name': 'value',
             'bank_branch': 'value',
+            'bank_branch_code': 'value',
             'bank_address': 'value',
-            'bank_timings': 'value',
+            'bank_timings': value,
+            'bank_ifsc_code': 'value',
+            'bank_micr_code': 'value',
+            'bank_phone_numbers': ['value'],
+            'bank_email': 'value',
+            'bank_website': 'value',
         })
         """
         return copy_of(self.banks)
@@ -25,8 +31,14 @@ class BankCollection:
         {
             'bank_name': 'value',
             'bank_branch': 'value',
+            'bank_branch_code': 'value',
             'bank_address': 'value',
-            'bank_timings': 'value',
+            'bank_timings': value,
+            'bank_ifsc_code': 'value',
+            'bank_micr_code': 'value',
+            'bank_phone_numbers': ['value'],
+            'bank_email': 'value',
+            'bank_website': 'value',
         }
         and if all the bank's details are valid then stores it in the collection
         """
@@ -81,9 +93,12 @@ class BankCollection:
             bank_name, bank_branch, bank_address, bank_timings
         @raises: InsufficientInformation Exception if missing details
         """
-        missing_required_keys = any(field not in bank for field in \
-                                    ['bank_name', 'bank_branch', 'bank_address', \
-                                     'bank_timings'])
+        missing_required_keys = any(field not in bank for field in                      \
+                                    ['bank_name', 'bank_branch', 'bank_branch_code',    \
+                                    'bank_address', 'bank_timings',                     \
+                                    'bank_ifsc_code', 'bank_micr_code',                 \
+                                    'bank_phone_numbers', 'bank_email', 'bank_website', \
+                                    ])
         if missing_required_keys:
             raise self.__class__.InsufficientInformation()
 
