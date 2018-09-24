@@ -7,3 +7,6 @@ __pycache__/
 #Coverage reports
 htmlcov/
 .coverage
+
+# IDE files and folders
+.idea
