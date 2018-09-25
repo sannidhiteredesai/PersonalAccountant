@@ -102,7 +102,7 @@ class BankPage(tk.Frame):
 
     def _display_each_bank_entry(self):
         row = 1
-        self.img = tk.PhotoImage(file='edit.gif')
+        self.img = tk.PhotoImage(file=os.path.join('ui', 'images', 'edit.gif'))
 
         for bank in self.banks:
             fg_color = 'black' if (row - 1) % 16 == 0 else 'blue'
