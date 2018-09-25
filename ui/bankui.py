@@ -27,8 +27,8 @@ class BankPage(tk.Frame):
         self.banks = BankCollection()
         banks = [
             {
-                'bank_name': 'ABC Bank',
-                'bank_branch': 'ABC Branch',
+                'bank_name': 'ABC Bank1',
+                'bank_branch': 'ABC Branch1',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
                 'bank_timings': [],
@@ -39,8 +39,8 @@ class BankPage(tk.Frame):
                 'bank_website': 'website',
             },
             {
-                'bank_name': 'ABC Bank',
-                'bank_branch': 'ABC Branch',
+                'bank_name': 'ABC Bank2',
+                'bank_branch': 'ABC Branch2',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
                 'bank_timings': [],
@@ -51,8 +51,8 @@ class BankPage(tk.Frame):
                 'bank_website': 'website',
             },
             {
-                'bank_name': 'ABC Bank',
-                'bank_branch': 'ABC Branch',
+                'bank_name': 'ABC Bank3',
+                'bank_branch': 'ABC Branch3',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
                 'bank_timings': [],
@@ -63,8 +63,8 @@ class BankPage(tk.Frame):
                 'bank_website': 'website',
             },
             {
-                'bank_name': 'ABC Bank',
-                'bank_branch': 'ABC Branch',
+                'bank_name': 'ABC Bank4',
+                'bank_branch': 'ABC Branch4',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
                 'bank_timings': [],
@@ -75,8 +75,8 @@ class BankPage(tk.Frame):
                 'bank_website': 'website',
             },
             {
-                'bank_name': 'ABC Bank',
-                'bank_branch': 'ABC Branch',
+                'bank_name': 'ABC Bank5',
+                'bank_branch': 'ABC Branch5',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
                 'bank_timings': [],
