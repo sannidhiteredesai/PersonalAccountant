@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.ttk import Separator
 import os
+from pa.bank import BankCollection
 
 bg_color = 'white'
 details_min_size = 300
@@ -23,9 +24,10 @@ class BankPage(tk.Frame):
         interior_id = canvas.create_window(0, 0, window=self.interior, anchor=tk.NW)
         self._sync_frame_and_canvas_size(canvas, interior_id)
 
-        self.banks = [
+        self.banks = BankCollection()
+        banks = [
             {
-                'bank_name': 'ABC Bank' + str(i),
+                'bank_name': 'ABC Bank',
                 'bank_branch': 'ABC Branch',
                 'bank_branch_code': 'ABC01',
                 'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
@@ -35,9 +37,59 @@ class BankPage(tk.Frame):
                 'bank_phone_numbers': ['1111'],
                 'bank_email': 'email',
                 'bank_website': 'website',
-            }
-            for i in range(3)
+            },
+            {
+                'bank_name': 'ABC Bank',
+                'bank_branch': 'ABC Branch',
+                'bank_branch_code': 'ABC01',
+                'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
+                'bank_timings': [],
+                'bank_ifsc_code': 'IFSCCODE',
+                'bank_micr_code': 'MICRCODE',
+                'bank_phone_numbers': ['1111'],
+                'bank_email': 'email',
+                'bank_website': 'website',
+            },
+            {
+                'bank_name': 'ABC Bank',
+                'bank_branch': 'ABC Branch',
+                'bank_branch_code': 'ABC01',
+                'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
+                'bank_timings': [],
+                'bank_ifsc_code': 'IFSCCODE',
+                'bank_micr_code': 'MICRCODE',
+                'bank_phone_numbers': ['1111'],
+                'bank_email': 'email',
+                'bank_website': 'website',
+            },
+            {
+                'bank_name': 'ABC Bank',
+                'bank_branch': 'ABC Branch',
+                'bank_branch_code': 'ABC01',
+                'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
+                'bank_timings': [],
+                'bank_ifsc_code': 'IFSCCODE',
+                'bank_micr_code': 'MICRCODE',
+                'bank_phone_numbers': ['1111'],
+                'bank_email': 'email',
+                'bank_website': 'website',
+            },
+            {
+                'bank_name': 'ABC Bank',
+                'bank_branch': 'ABC Branch',
+                'bank_branch_code': 'ABC01',
+                'bank_address': 'Address of bank zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzz',
+                'bank_timings': [],
+                'bank_ifsc_code': 'IFSCCODE',
+                'bank_micr_code': 'MICRCODE',
+                'bank_phone_numbers': ['1111'],
+                'bank_email': 'email',
+                'bank_website': 'website',
+            },
         ]
+        for bank in banks:
+            self.banks.add(bank)
+
         self._display_banks_header()
         self._display_each_bank_entry()
 
@@ -104,7 +156,7 @@ class BankPage(tk.Frame):
         row = 1
         self.img = tk.PhotoImage(file=os.path.join('ui', 'images', 'edit.gif'))
 
-        for bank in self.banks:
+        for bank in self.banks.get_all_bank_details():
             fg_color = 'black' if (row - 1) % 16 == 0 else 'blue'
 
             # Bank Details
