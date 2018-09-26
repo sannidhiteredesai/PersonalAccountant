@@ -177,7 +177,7 @@ class BankPage(tk.Frame):
         This method will display bank details for each branch and an edit button for each row
         """
         row = 1
-        self.img = tk.PhotoImage(file=os.path.join('ui', 'images', 'edit.gif'))
+        self.img = tk.PhotoImage(file=os.path.join('pa', 'ui', 'images', 'edit.gif'))
 
         for bank in self.banks.get_all_bank_details():
             fg_color = 'black' if (row - 1) % 16 == 0 else 'blue'

@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from ui.bankui import BankPage
+from pa.ui.bankui import BankPage
 
 class HomePage(tk.Frame):
     def __init__(self, parent, controller):

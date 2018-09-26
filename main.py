@@ -2,7 +2,7 @@
     Personal Accountant Software
 """
 
-from ui.appui import PersonalAccountantApp, start
+from pa.ui.appui import PersonalAccountantApp, start
 
 APP = PersonalAccountantApp()
 start(APP)

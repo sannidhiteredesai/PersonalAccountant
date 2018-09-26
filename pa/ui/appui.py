@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from ui.homeui import HomePage
-from ui.bankui import BankPage
+from pa.ui.homeui import HomePage
+from pa.ui.bankui import BankPage
 
 
 LARGE_FONT = ('Verdana', 12)
