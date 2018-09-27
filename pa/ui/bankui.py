@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, END
 from tkinter.ttk import Separator
 import os
 from pa.bank import BankCollection
@@ -252,9 +252,9 @@ class BankPage(tk.Frame):
         tk.Button(edit_bank_dialog, text=bank['bank_address'], relief='sunken').grid(row=2, column=1, sticky='ew',
                                                                                      padx=(10, 0))
         ttk.Label(edit_bank_dialog, text='Address:').grid(row=2, column=2, sticky='ew', padx=(10, 0))
-        entry = tk.Entry(edit_bank_dialog)
+        entry = tk.Text(edit_bank_dialog)
         entry.grid(row=2, column=3, sticky='ew', padx=(10, 0))
-        entry.insert(0, bank['bank_address'])
+        entry.insert(END, bank['bank_address'])
 
         # Branch code
         ttk.Label(edit_bank_dialog, text='Branch Code:').grid(row=3, column=0, sticky='ew', padx=(10, 0))
