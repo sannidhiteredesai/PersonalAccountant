@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
 from pa.ui.homeui import HomePage
 from pa.ui.bankui import BankPage
 
@@ -21,6 +22,9 @@ def setup(app):
 
     # Set window title
     app.title('Personal Accountant')
+
+    # Set default font
+    font.nametofont("TkDefaultFont").config(family='Verdana', size=10)
 
 def start(app):
     setup(app)
