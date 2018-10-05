@@ -229,16 +229,25 @@ class BankPage(tk.Frame):
             row += 8
 
     def _edit_bank(self, bank):
+        """
+        This method will display a new window for editing bank details
+        :param bank: <dict> containing that specific bank details
+        """
+
         dialog = tk.Tk()
-        dialog.option_add("*Font", 'Verdana 10')
+        self._setup_edit_bank_dialog(dialog)
+
+        # Set columns to expand/shrink if window is resized
+        dialog.grid_columnconfigure(0, weight=1)
+        dialog.grid_columnconfigure(1, weight=1)
+        dialog.grid_columnconfigure(3, weight=1)
+        dialog.grid_columnconfigure(4, weight=1)
 
         # Add non-editable and editable details next to each other
         self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
         self._add_entry_widget(parent=dialog, row=1, key='Branch:', value=bank['bank_branch'])
-        self._add_existing_and_edit_widgets(parent=dialog, row=2,
-                                            key='Address:', value=bank['bank_address'],
-                                            extra_options={'width': int(self._screen_width * 0.04), 'height': 10,
-                                                           'font': ('Verdana', 10)})
+        self. _add_text_widget(parent=dialog, row=2, key='Address:', value=bank['bank_address'],
+                              extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
         self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
         self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
         self._add_entry_widget(parent=dialog, row=5, key='IFSC Code:', value=bank['bank_ifsc_code'])
@@ -246,8 +255,8 @@ class BankPage(tk.Frame):
         self._add_entry_widget(parent=dialog, row=7, key='Phone:', value=bank['bank_phone_numbers'])
         self._add_entry_widget(parent=dialog, row=8, key='Email:', value=bank['bank_email'])
         self._add_entry_widget(parent=dialog, row=9, key='Website:', value=bank['bank_website'])
-
         self._add_vertical_seperator(dialog)
+
         button = ttk.Button(dialog, text='OK',
                             command=lambda: self._close_and_refresh_page(dialog))
         dialog.mainloop()
@@ -257,7 +266,7 @@ class BankPage(tk.Frame):
         sep = Separator(dialog, orient="vertical")
         sep.grid(row=0, column=2, rowspan=10, sticky="ns")
 
-    def _add_existing_and_edit_widgets(self, parent, row, key, value, extra_options={}):
+    def _add_text_widget(self, parent, row, key, value, extra_options={}):
         # Existing details
         ttk.Label(parent, text=key).grid(row=row, column=0, sticky='ew', padx=(10, 10), pady=(10, 10))
         entry = tk.Text(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237), **extra_options)
@@ -289,3 +298,18 @@ class BankPage(tk.Frame):
     def _close_and_refresh_page(self, widget_to_destroy):
         widget_to_destroy.destroy()
         self._display_contents()
+
+    def _setup_edit_bank_dialog(self, dialog):
+        """
+        This method will:
+            Set the dimensions of dialog box,
+            Set its position to centre of screen,
+            Set focus to the dialog box,
+        :param dialog: Tkinter window for edit bank dialog
+        """
+        dailog_width = int(self.winfo_screenwidth()*0.85)
+        dailog_height = int(self.winfo_screenheight()*0.8)
+        dialog_x_cord = int((self.winfo_screenwidth() - dailog_width) / 2)
+        dialog_y_cord = int((self.winfo_screenheight() - dailog_height) / 2) - 10
+        dialog.geometry(f'{dailog_width}x{dailog_height}+{dialog_x_cord}+{dialog_y_cord}')
+        dialog.focus_force()
