@@ -3,7 +3,7 @@ from enum import Enum
 import time
 
 class BankCollection:
-    
+
     def __init__(self):
         self.banks = []
 
@@ -69,7 +69,7 @@ class BankCollection:
                  False - if time is not in a valid format
         """
         try:
-            
+
             time.strptime(time_, '%I:%M')
             return True
         except ValueError:
@@ -84,7 +84,7 @@ class BankCollection:
         @return: 24 hr string representation of input time
         """
         return time.strftime(
-            '%H:%M', 
+            '%H:%M',
             time.strptime(f'{hrs_colon_mins} {am_or_pm.name}', '%I:%M %p'))
 
     def _check_bank_has_all_details(self, bank):
@@ -93,12 +93,12 @@ class BankCollection:
             bank_name, bank_branch, bank_address, bank_timings
         @raises: InsufficientInformation Exception if missing details
         """
-        missing_required_keys = any(field not in bank for field in                      \
-                                    ['bank_name', 'bank_branch', 'bank_branch_code',    \
-                                    'bank_address', 'bank_timings',                     \
-                                    'bank_ifsc_code', 'bank_micr_code',                 \
-                                    'bank_phone_numbers', 'bank_email', 'bank_website', \
-                                    ])
+        missing_required_keys = any(field not in bank for field in \
+                                    ['bank_name', 'bank_branch', 'bank_branch_code', \
+                                     'bank_address', 'bank_timings', \
+                                     'bank_ifsc_code', 'bank_micr_code', \
+                                     'bank_phone_numbers', 'bank_email', 'bank_website', \
+                                     ])
         if missing_required_keys:
             raise self.__class__.InsufficientInformation()
 
@@ -109,8 +109,8 @@ class BankCollection:
         @raises: InsufficientInformation Exception if invalid timings on any day
         """
         invalid_bank_timings = not all([self.__class__._is_valid_hrs_and_mins(d[1]) and \
-                                      self.__class__._is_valid_hrs_and_mins(d[3]) \
-                                      for d in days])
+                                        self.__class__._is_valid_hrs_and_mins(d[3]) \
+                                        for d in days])
         if invalid_bank_timings:
             raise __class__.InValidBankTimings()
 
@@ -120,6 +120,18 @@ class BankCollection:
         if closing_before_opening:
             raise self.__class__.InValidBankTimings()
 
+    def update(self, bank):
+        for b in self.banks:
+            if b['bank_name'] == bank['bank_name'] and b['bank_branch'] == bank['bank_branch']:
+                b['bank_branch_code'] = bank['bank_branch_code']
+                b['bank_address'] = bank['bank_address']
+                b['bank_timings'] = bank['bank_timings']
+                b['bank_ifsc_code'] = bank['bank_ifsc_code']
+                b['bank_micr_code'] = bank['bank_micr_code']
+                b['bank_phone_numbers'] = bank['bank_phone_numbers']
+                b['bank_email'] = bank['bank_email']
+                b['bank_website'] = bank['bank_website']
+
     class InsufficientInformation(Exception):
         pass
 
@@ -128,6 +140,8 @@ class BankCollection:
 
     class OverlappingBankTimings(Exception):
         pass
+
+
 
 class Day(Enum):
     MONDAY = 1

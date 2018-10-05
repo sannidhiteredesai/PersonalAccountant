@@ -99,3 +99,32 @@ def test_bank_open_on_which_all_days():
     })
 
     assert banks.get_bank_open_days('ABC Bank') == {'MONDAY', 'TUESDAY', 'WEDNESDAY'}
+
+def test_update_bank():
+    banks = BankCollection()
+    banks.add({
+        'bank_name': 'ABC Bank',
+        'bank_branch': 'ABC Branch',
+        'bank_branch_code': 'ABC01',
+        'bank_address': 'Address of bank',
+        'bank_timings': [],
+        'bank_ifsc_code': 'IFSCCODE',
+        'bank_micr_code': 'MICRCODE',
+        'bank_phone_numbers': [],
+        'bank_email': 'email',
+        'bank_website': 'website',
+    })
+    updated_bank = {
+        'bank_name': 'ABC Bank',
+        'bank_branch': 'ABC Branch',
+        'bank_branch_code': 'Updated ABC01',
+        'bank_address': 'Address of bank',
+        'bank_timings': [],
+        'bank_ifsc_code': 'IFSCCODE',
+        'bank_micr_code': 'MICRCODE',
+        'bank_phone_numbers': [],
+        'bank_email': 'email',
+        'bank_website': 'website',
+    }
+    banks.update(updated_bank)  # Updated bank_branch_code
+    assert banks.get_all_bank_details()[0] == updated_bank

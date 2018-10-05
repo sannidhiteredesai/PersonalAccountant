@@ -244,21 +244,20 @@ class BankPage(tk.Frame):
         dialog.grid_columnconfigure(4, weight=1)
 
         # Add non-editable and editable details next to each other
-        self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
-        self._add_entry_widget(parent=dialog, row=1, key='Branch:', value=bank['bank_branch'])
-        self. _add_text_widget(parent=dialog, row=2, key='Address:', value=bank['bank_address'],
-                              extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
-        self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
-        self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
-        self._add_entry_widget(parent=dialog, row=5, key='IFSC Code:', value=bank['bank_ifsc_code'])
-        self._add_entry_widget(parent=dialog, row=6, key='MICR Code:', value=bank['bank_micr_code'])
-        self._add_entry_widget(parent=dialog, row=7, key='Phone:', value=bank['bank_phone_numbers'])
-        self._add_entry_widget(parent=dialog, row=8, key='Email:', value=bank['bank_email'])
-        self._add_entry_widget(parent=dialog, row=9, key='Website:', value=bank['bank_website'])
+        self.edited_name = self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
+        self.edited_branch = self._add_entry_widget(parent=dialog, row=1, key='Branch:', value=bank['bank_branch'])
+        self.edited_address = self. _add_text_widget(parent=dialog, row=2, key='Address:', value=bank['bank_address'],
+                                                     extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
+        self.edited_branch_code = self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
+        self.edited_timings = self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
+        self.edited_ifsc_code = self._add_entry_widget(parent=dialog, row=5, key='IFSC Code:', value=bank['bank_ifsc_code'])
+        self.edited_micr_code = self._add_entry_widget(parent=dialog, row=6, key='MICR Code:', value=bank['bank_micr_code'])
+        self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=7, key='Phone:', value=bank['bank_phone_numbers'])
+        self.edited_email = self._add_entry_widget(parent=dialog, row=8, key='Email:', value=bank['bank_email'])
+        self.edited_website = self._add_entry_widget(parent=dialog, row=9, key='Website:', value=bank['bank_website'])
         self._add_vertical_seperator(dialog)
 
-        button = ttk.Button(dialog, text='OK',
-                            command=lambda: self._close_and_refresh_page(dialog))
+        self._add_bottom_buttons(dialog, bank=bank, row=10)
         dialog.mainloop()
 
     def _add_vertical_seperator(self, dialog):
@@ -269,31 +268,35 @@ class BankPage(tk.Frame):
     def _add_text_widget(self, parent, row, key, value, extra_options={}):
         # Existing details
         ttk.Label(parent, text=key).grid(row=row, column=0, sticky='ew', padx=(10, 10), pady=(10, 10))
-        entry = tk.Text(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237), **extra_options)
-        entry.insert(END, value)
-        entry.config(state=DISABLED)
-        entry.grid(row=row, column=1, sticky='ew', padx=(10, 10))
+        existing_text = tk.Text(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237), **extra_options)
+        existing_text.insert(END, value)
+        existing_text.config(state=DISABLED)
+        existing_text.grid(row=row, column=1, sticky='ew', padx=(10, 10))
 
         # Editable details
         ttk.Label(parent, text=key).grid(row=row, column=3, sticky='ew', padx=(10, 10))
-        entry = tk.Text(parent, **extra_options)
-        entry.insert(END, value)
-        entry.grid(row=row, column=4, sticky='ew', padx=(10, 10))
+        editable_text = tk.Text(parent, **extra_options)
+        editable_text.insert(END, value)
+        editable_text.grid(row=row, column=4, sticky='ew', padx=(10, 10))
+
+        return editable_text
 
     def _add_entry_widget(self, parent, row, key, value, extra_options={}):
         # Existing details
         ttk.Label(parent, text=key).grid(row=row, column=0, sticky='ew', padx=(10, 10), pady=(10, 10))
-        entry = tk.Entry(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237),
+        existing_entry = tk.Entry(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237),
                          disabledforeground='black', **extra_options)
-        entry.insert(END, value)
-        entry.config(state=DISABLED)
-        entry.grid(row=row, column=1, sticky='ew', padx=(10, 10), pady=(10, 10))
+        existing_entry.insert(END, value)
+        existing_entry.config(state=DISABLED)
+        existing_entry.grid(row=row, column=1, sticky='ew', padx=(10, 10), pady=(10, 10))
 
         # Editable details
         ttk.Label(parent, text=key).grid(row=row, column=3, sticky='ew', padx=(10, 10), pady=(10, 10))
-        entry = tk.Entry(parent, **extra_options)
-        entry.insert(END, value)
-        entry.grid(row=row, column=4, sticky='ew', padx=(10, 10), pady=(10, 10))
+        editable_entry = tk.Entry(parent, **extra_options)
+        editable_entry.insert(END, value)
+        editable_entry.grid(row=row, column=4, sticky='ew', padx=(10, 10), pady=(10, 10))
+
+        return editable_entry
 
     def _close_and_refresh_page(self, widget_to_destroy):
         widget_to_destroy.destroy()
@@ -313,3 +316,40 @@ class BankPage(tk.Frame):
         dialog_y_cord = int((self.winfo_screenheight() - dailog_height) / 2) - 10
         dialog.geometry(f'{dailog_width}x{dailog_height}+{dialog_x_cord}+{dialog_y_cord}')
         dialog.focus_force()
+
+    def _add_bottom_buttons(self, dialog, bank, row):
+
+        delete = ttk.Button(dialog, text='Delete Existing Branch', command=lambda: self._show_confirm_dialog(dialog, bank))
+        delete.grid(row=row, column=0, padx=(10, 10), pady=(10, 10), columnspan=2)
+
+        save = ttk.Button(dialog, text='Save Updated Branch', command=lambda: self._show_confirm_dialog(dialog, bank))
+        save.grid(row=row, column=3, padx=(10, 10), pady=(10, 10), columnspan=2)
+
+    def _show_confirm_dialog(self, dialog, bank):
+        confirm = tk.Tk()
+
+        message = ttk.Label(confirm, text='Do you really want to save updated branch ?')
+        message.grid(row=0, columnspan=2)
+
+        yes = ttk.Button(confirm, text='Yes', command=lambda: self._save_branch(bank, dialog, confirm))
+        yes.grid(row=1, column=0)
+
+        no = ttk.Button(confirm, text='No', command=lambda: confirm.destroy())
+        no.grid(row=1, column=1)
+
+    def _save_branch(self, bank, edit_branch_dialog, confirm_dialog):
+        confirm_dialog.destroy()
+        updated_bank = {
+            'bank_name': self.edited_name.get(),
+            'bank_branch': self.edited_branch.get(),
+            'bank_branch_code': self.edited_branch_code.get(),
+            'bank_address': '',
+            'bank_timings': [],
+            'bank_ifsc_code': self.edited_ifsc_code.get(),
+            'bank_micr_code': self.edited_micr_code.get(),
+            'bank_phone_numbers': [],
+            'bank_email': self.edited_email.get(),
+            'bank_website': self.edited_website.get(),
+        }
+        self.banks.update(updated_bank)
+        self._close_and_refresh_page(edit_branch_dialog)
