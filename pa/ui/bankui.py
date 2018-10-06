@@ -29,7 +29,7 @@ class BankPage(tk.Frame):
                 'bank_timings': [],
                 'bank_ifsc_code': 'IFSCCODE',
                 'bank_micr_code': 'MICRCODE',
-                'bank_phone_numbers': ['1111'],
+                'bank_phone_numbers': ['1111', '22'],
                 'bank_email': 'email',
                 'bank_website': 'website',
             },
@@ -252,7 +252,7 @@ class BankPage(tk.Frame):
         self.edited_timings = self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
         self.edited_ifsc_code = self._add_entry_widget(parent=dialog, row=5, key='IFSC Code:', value=bank['bank_ifsc_code'])
         self.edited_micr_code = self._add_entry_widget(parent=dialog, row=6, key='MICR Code:', value=bank['bank_micr_code'])
-        self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=7, key='Phone:', value=bank['bank_phone_numbers'])
+        self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=7, key='Phone:', value=', '.join(bank['bank_phone_numbers']))
         self.edited_email = self._add_entry_widget(parent=dialog, row=8, key='Email:', value=bank['bank_email'])
         self.edited_website = self._add_entry_widget(parent=dialog, row=9, key='Website:', value=bank['bank_website'])
         self._add_vertical_seperator(dialog)
@@ -347,7 +347,7 @@ class BankPage(tk.Frame):
             'bank_timings': [],
             'bank_ifsc_code': self.edited_ifsc_code.get(),
             'bank_micr_code': self.edited_micr_code.get(),
-            'bank_phone_numbers': [],
+            'bank_phone_numbers': [ _ for _ in map(str.strip, self.edited_phone_numbers.get().split(','))],
             'bank_email': self.edited_email.get(),
             'bank_website': self.edited_website.get(),
         }
