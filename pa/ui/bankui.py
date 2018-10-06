@@ -343,7 +343,7 @@ class BankPage(tk.Frame):
             'bank_name': self.edited_name.get(),
             'bank_branch': self.edited_branch.get(),
             'bank_branch_code': self.edited_branch_code.get(),
-            'bank_address': '',
+            'bank_address': self.edited_address.get('0.0', END),
             'bank_timings': [],
             'bank_ifsc_code': self.edited_ifsc_code.get(),
             'bank_micr_code': self.edited_micr_code.get(),
