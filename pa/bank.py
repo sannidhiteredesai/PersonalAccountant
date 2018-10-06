@@ -106,7 +106,7 @@ class BankCollection:
         """
         This method checks if bank timings are valid on all days
         and checks if bank opens before it closes on all days
-        @raises: InsufficientInformation Exception if invalid timings on any day
+        @raises: InValidBankTimings Exception if invalid timings on any day
         """
         invalid_bank_timings = not all([self.__class__._is_valid_hrs_and_mins(d[1]) and \
                                         self.__class__._is_valid_hrs_and_mins(d[3]) \
