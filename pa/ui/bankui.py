@@ -197,7 +197,7 @@ class BankPage(tk.Frame):
 
             # Bank Timings
             for i in range(7):
-                ttk.Label(self.interior, text='MONDAY: 10:30 AM - 1:30 PM', foreground=fg_color, background=bg_color,
+                ttk.Label(self.interior, text='MONDAY: 10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM', foreground=fg_color, background=bg_color,
                           anchor='w').grid(row=row + i, column=1, sticky='ew', padx=(10, 0))
 
             # Bank Codes
@@ -238,8 +238,9 @@ class BankPage(tk.Frame):
         self._setup_edit_bank_dialog(dialog)
 
         # Set columns to expand/shrink if window is resized
-        for i in (0, 1, 10, 12, 13, 22):
+        for i in (0, 2, 4, 6):
             dialog.grid_columnconfigure(i, weight=1)
+        self._add_vertical_seperator(dialog)
 
         # Add non-editable and editable details next to each other
         self.edited_name = self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
@@ -248,6 +249,9 @@ class BankPage(tk.Frame):
                                                      extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
         self.edited_branch_code = self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
         # self.edited_timings = self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
+
+        tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=0, rowspan=7, sticky='ew', padx=(10, 10))
+        tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=4, rowspan=7, sticky='ew', padx=(10, 10))
         self._display_timings(dialog, row=4)
         self._display_timings(dialog, row=5)
         self._display_timings(dialog, row=6)
@@ -261,78 +265,29 @@ class BankPage(tk.Frame):
         self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=13, key='Phone:', value=', '.join(bank['bank_phone_numbers']))
         self.edited_email = self._add_entry_widget(parent=dialog, row=14, key='Email:', value=bank['bank_email'])
         self.edited_website = self._add_entry_widget(parent=dialog, row=15, key='Website:', value=bank['bank_website'])
-        self._add_vertical_seperator(dialog)
 
         self._add_bottom_buttons(dialog, bank=bank, row=16)
         dialog.mainloop()
 
     def _display_timings(self, dialog, row):
-        tk.Label(dialog, text='Timings:', anchor='w').grid(row=row, column=0, sticky='ew', padx=(10, 10))
-        tk.Label(dialog, text='Timings:', anchor='w').grid(row=row, column=12, sticky='ew', padx=(10, 10))
 
         ttk.Label(dialog, text='MONDAY').grid(row=row, column=1, sticky='e', padx=(0, 10))
-        ttk.Label(dialog, text='MONDAY').grid(row=row, column=13, sticky='e', padx=(0, 10))
+        ttk.Label(dialog, text='MONDAY').grid(row=row, column=5, sticky='e', padx=(0, 10))
 
-        e = tk.Entry(dialog, justify='center', width=3)
+        e = tk.Entry(dialog)
         e.insert('0', '10')
-        e.grid(row=row, column=2)
+        e.configure(state=DISABLED)
+        e.grid(row=row, column=2, sticky='ew', padx=(0, 10))
 
-        tk.Label(dialog, text=':').grid(row=row, column=3)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '30')
-        e.grid(row=row, column=4)
-
-        tk.Label(dialog, text='AM').grid(row=row, column=5)
-
-        tk.Label(dialog, text='-').grid(row=row, column=6)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '11')
-        e.grid(row=row, column=7)
-
-        tk.Label(dialog, text=':').grid(row=row, column=8)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '30')
-        e.grid(row=row, column=9)
-
-        tk.Label(dialog, text='AM').grid(row=row, column=10, sticky='w', padx=(0, 10))
-
-        # Non editable part
-
-
-        e = tk.Entry(dialog, justify='center', width=3)
+        e = tk.Entry(dialog)
         e.insert('0', '10')
-        e.grid(row=row, column=14)
-
-        tk.Label(dialog, text=':').grid(row=row, column=15)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '30')
-        e.grid(row=row, column=16)
-
-        tk.Label(dialog, text='AM').grid(row=row, column=17)
-
-        tk.Label(dialog, text='-').grid(row=row, column=18)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '11')
-        e.grid(row=row, column=19)
-
-        tk.Label(dialog, text=':').grid(row=row, column=20)
-
-        e = tk.Entry(dialog, justify='center', width=3)
-        e.insert('0', '30')
-        e.grid(row=row, column=21)
-
-        tk.Label(dialog, text='AM').grid(row=row, column=22, sticky='w', padx=(0, 10))
+        e.grid(row=row, column=6, sticky='ew', padx=(0, 10))
 
 
     def _add_vertical_seperator(self, dialog):
         # Line seperator
         sep = Separator(dialog, orient="vertical")
-        sep.grid(row=0, column=11, rowspan=10, sticky="ns")
+        sep.grid(row=0, column=3, rowspan=16, sticky="ns")
 
     def _add_text_widget(self, parent, row, key, value, extra_options={}):
         # Existing details
@@ -340,13 +295,13 @@ class BankPage(tk.Frame):
         existing_text = tk.Text(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237), **extra_options)
         existing_text.insert(END, value)
         existing_text.config(state=DISABLED)
-        existing_text.grid(row=row, column=1, columnspan=10, sticky='ew', padx=(10, 10), pady=(10, 0))
+        existing_text.grid(row=row, column=1, columnspan=2, sticky='ew', padx=(10, 10), pady=(10, 0))
 
         # Editable details
-        ttk.Label(parent, text=key).grid(row=row, column=12, sticky='ew', padx=(10, 10), pady=(10, 0))
+        ttk.Label(parent, text=key).grid(row=row, column=4, sticky='ew', padx=(10, 10), pady=(10, 0))
         editable_text = tk.Text(parent, **extra_options)
         editable_text.insert(END, value)
-        editable_text.grid(row=row, column=13, columnspan=10, sticky='ew', padx=(10, 10), pady=(10, 0))
+        editable_text.grid(row=row, column=5, columnspan=2, sticky='ew', padx=(10, 10), pady=(10, 0))
 
         return editable_text
 
@@ -357,13 +312,13 @@ class BankPage(tk.Frame):
                                   disabledforeground='black', **extra_options)
         existing_entry.insert(END, value)
         existing_entry.config(state=DISABLED)
-        existing_entry.grid(row=row, column=1, columnspan=10, sticky='ew', padx=(10, 10), pady=(10, 0))
+        existing_entry.grid(row=row, column=1, columnspan=2, sticky='ew', padx=(10, 10), pady=(10, 0))
 
         # Editable details
-        ttk.Label(parent, text=key).grid(row=row, column=12, sticky='ew', padx=(10, 10), pady=(10, 0))
+        ttk.Label(parent, text=key).grid(row=row, column=4, sticky='ew', padx=(10, 10), pady=(10, 0))
         editable_entry = tk.Entry(parent, **extra_options)
         editable_entry.insert(END, value)
-        editable_entry.grid(row=row, column=13, columnspan=10, sticky='ew', padx=(10, 10), pady=(10, 0))
+        editable_entry.grid(row=row, column=5, columnspan=5, sticky='ew', padx=(10, 10), pady=(10, 0))
 
         return editable_entry
 
@@ -389,10 +344,10 @@ class BankPage(tk.Frame):
     def _add_bottom_buttons(self, dialog, bank, row):
 
         delete = ttk.Button(dialog, text='Delete Existing Branch', command=lambda: self._show_confirm_dialog(dialog, bank))
-        delete.grid(row=row, column=0, padx=(10, 10), pady=(10, 10), columnspan=11)
+        delete.grid(row=row, column=0, padx=(10, 10), pady=(10, 10), columnspan=3)
 
         save = ttk.Button(dialog, text='Save Updated Branch', command=lambda: self._show_confirm_dialog(dialog, bank))
-        save.grid(row=row, column=12, padx=(10, 10), pady=(10, 10), columnspan=11)
+        save.grid(row=row, column=4, padx=(10, 10), pady=(10, 10), columnspan=3)
 
     def _show_confirm_dialog(self, dialog, bank):
         confirm = tk.Tk()
