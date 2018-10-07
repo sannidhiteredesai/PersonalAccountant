@@ -3,7 +3,7 @@ from tkinter import ttk, END, DISABLED
 from tkinter.ttk import Separator
 import os
 from pa.bank import BankCollection
-
+from collections import namedtuple as namedtuple
 
 bg_color = 'white'
 details_min_size = 300
@@ -228,60 +228,122 @@ class BankPage(tk.Frame):
 
             row += 8
 
+    # def _edit_bank(self, bank):
+    #     """
+    #     This method will display a new window for editing bank details
+    #     :param bank: <dict> containing that specific bank details
+    #     """
+    #
+    #     dialog = tk.Tk()
+    #     self._setup_edit_bank_dialog(dialog)
+    #
+    #     # Set columns to expand/shrink if window is resized
+    #     for i in (0, 2, 4, 6):
+    #         dialog.grid_columnconfigure(i, weight=1)
+    #     self._add_vertical_seperator(dialog)
+    #
+    #     # Add non-editable and editable details next to each other
+    #     self.edited_name = self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
+    #     self.edited_branch = self._add_entry_widget(parent=dialog, row=1, key='Branch:', value=bank['bank_branch'])
+    #     self.edited_address = self. _add_text_widget(parent=dialog, row=2, key='Address:', value=bank['bank_address'],
+    #                                                  extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
+    #     self.edited_branch_code = self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
+    #     # self.edited_timings = self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
+    #
+    #     tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=0, rowspan=7, sticky='ew', padx=(10, 10))
+    #     tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=4, rowspan=7, sticky='ew', padx=(10, 10))
+    #     self._display_timings(dialog, row=4)
+    #     self.edited_ifsc_code = self._add_entry_widget(parent=dialog, row=11, key='IFSC Code:', value=bank['bank_ifsc_code'])
+    #     self.edited_micr_code = self._add_entry_widget(parent=dialog, row=12, key='MICR Code:', value=bank['bank_micr_code'])
+    #     self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=13, key='Phone:', value=', '.join(bank['bank_phone_numbers']))
+    #     self.edited_email = self._add_entry_widget(parent=dialog, row=14, key='Email:', value=bank['bank_email'])
+    #     self.edited_website = self._add_entry_widget(parent=dialog, row=15, key='Website:', value=bank['bank_website'])
+    #
+    #     self._add_bottom_buttons(dialog, bank=bank, row=16)
+    #     dialog.mainloop()
+
     def _edit_bank(self, bank):
-        """
-        This method will display a new window for editing bank details
-        :param bank: <dict> containing that specific bank details
-        """
 
-        dialog = tk.Tk()
-        self._setup_edit_bank_dialog(dialog)
+        window = tk.Tk()
+        self._setup_edit_bank_window(window)
+        Row = namedtuple('Row', ['label', 'value', 'type', 'editable'])
 
-        # Set columns to expand/shrink if window is resized
-        for i in (0, 2, 4, 6):
-            dialog.grid_columnconfigure(i, weight=1)
-        self._add_vertical_seperator(dialog)
+        details = [
+            Row(label='Bank:', value=bank['bank_name'], type='Entry', editable=False),
+            Row(label='Branch:', value=bank['bank_branch'], type='Entry', editable=False),
+            Row(label='Address:', value='', type='Text', editable=False),
+            Row(label='Branch Code:', value=bank['bank_branch_code'], type='Entry', editable=False),
+            Row(label='Timings:', value='', type='Entry', editable=False),
+            Row(label='IFSC Code:', value=bank['bank_ifsc_code'], type='Entry', editable=False),
+            Row(label='MICR Code:', value=bank['bank_micr_code'], type='Entry', editable=False),
+            Row(label='Phone:', value=', '.join(bank['bank_phone_numbers']), type='Entry', editable=False),
+            Row(label='Email:', value=bank['bank_email'], type='Entry', editable=False),
+            Row(label='Website:', value=bank['bank_website'], type='Entry', editable=False),
+        ]
+        self._display_details(details=details, start_row=0, start_column=0, window=window)
+        self._add_vertical_seperator(window)
 
-        # Add non-editable and editable details next to each other
-        self.edited_name = self._add_entry_widget(parent=dialog, row=0, key='Bank:', value=bank['bank_name'])
-        self.edited_branch = self._add_entry_widget(parent=dialog, row=1, key='Branch:', value=bank['bank_branch'])
-        self.edited_address = self. _add_text_widget(parent=dialog, row=2, key='Address:', value=bank['bank_address'],
-                                                     extra_options={'width': int(self._screen_width * 0.04), 'height': 10})
-        self.edited_branch_code = self._add_entry_widget(parent=dialog, row=3, key='Branch Code:', value=bank['bank_branch_code'])
-        # self.edited_timings = self._add_entry_widget(parent=dialog, row=4, key='Timings:', value=bank['bank_timings'])
+        details = [
+            Row(label='Bank:', value=bank['bank_name'], type='Entry', editable=False),
+            Row(label='Branch:', value=bank['bank_branch'], type='Entry', editable=False),
+            Row(label='Address:', value='', type='Text', editable=True),
+            Row(label='Branch Code:', value=bank['bank_branch_code'], type='Entry', editable=True),
+            Row(label='Timings:', value='', type='Entry', editable=True),
+            Row(label='IFSC Code:', value=bank['bank_ifsc_code'], type='Entry', editable=True),
+            Row(label='MICR Code:', value=bank['bank_micr_code'], type='Entry', editable=True),
+            Row(label='Phone:', value=', '.join(bank['bank_phone_numbers']), type='Entry', editable=True),
+            Row(label='Email:', value=bank['bank_email'], type='Entry', editable=True),
+            Row(label='Website:', value=bank['bank_website'], type='Entry', editable=True),
+        ]
+        self._display_details(details=details, start_row=0, start_column=4, window=window)
 
-        tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=0, rowspan=7, sticky='ew', padx=(10, 10))
-        tk.Label(dialog, text='Timings:', anchor='w').grid(row=4, column=4, rowspan=7, sticky='ew', padx=(10, 10))
-        self._display_timings(dialog, row=4)
-        self._display_timings(dialog, row=5)
-        self._display_timings(dialog, row=6)
-        self._display_timings(dialog, row=7)
-        self._display_timings(dialog, row=8)
-        self._display_timings(dialog, row=9)
-        self._display_timings(dialog, row=10)
+        window.mainloop()
 
-        self.edited_ifsc_code = self._add_entry_widget(parent=dialog, row=11, key='IFSC Code:', value=bank['bank_ifsc_code'])
-        self.edited_micr_code = self._add_entry_widget(parent=dialog, row=12, key='MICR Code:', value=bank['bank_micr_code'])
-        self.edited_phone_numbers = self._add_entry_widget(parent=dialog, row=13, key='Phone:', value=', '.join(bank['bank_phone_numbers']))
-        self.edited_email = self._add_entry_widget(parent=dialog, row=14, key='Email:', value=bank['bank_email'])
-        self.edited_website = self._add_entry_widget(parent=dialog, row=15, key='Website:', value=bank['bank_website'])
-
-        self._add_bottom_buttons(dialog, bank=bank, row=16)
-        dialog.mainloop()
+    def _display_details(self, details, start_row, start_column, window):
+        for d in range(len(details)):
+            tk.Label(window, text=details[d].label).grid(row=start_row + d, column=start_column, sticky='ew',
+                                                         padx=(10, 10),
+                                                         pady=(10, 0))
+            if details[d].type == 'Entry':
+                existing_entry = tk.Entry(window)
+                existing_entry.insert(END, details[d].value)
+                existing_entry.grid(row=start_row + d, column=start_column + 1, columnspan=2, sticky='ew',
+                                    padx=(10, 10),
+                                    pady=(10, 0))
+                if not details[d].editable:
+                    existing_entry.config(state=DISABLED, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237),
+                                          disabledforeground='black')
+            elif details[d].type == 'Text':
+                existing_text = tk.Text(window, width=int(self._screen_width * 0.04), height=10)
+                existing_text.insert(END, details[d].value)
+                existing_text.grid(row=start_row + d, column=start_column + 1, columnspan=2, sticky='ew', padx=(10, 10),
+                                   pady=(10, 0))
+                if not details[d].editable:
+                    existing_text.config(state=DISABLED, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237))
 
     def _display_timings(self, dialog, row):
+        DailyTime = namedtuple('DailyTime', ['day','time'])
+        timings = [
+            DailyTime('MONDAY', '10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM'),
+            DailyTime('TUESDAY', '10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM'),
+            DailyTime('WEDNESDAY', '10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM'),
+            DailyTime('TURSDAY', '10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM'),
+            DailyTime('FRIDAY', '10:30 AM - 1:30 PM, 10:30 AM - 1:30 PM'),
+            DailyTime('SATURDAY', '10:30 AM - 1:30 PM'),
+            DailyTime('SUNDAY', ''),
+        ]
+        for t in range(len(timings)):
+            ttk.Label(dialog, text=timings[t].day).grid(row=row+t, column=1, sticky='e', padx=(0, 10))
+            ttk.Label(dialog, text=timings[t].day).grid(row=row+t, column=5, sticky='e', padx=(0, 10))
 
-        ttk.Label(dialog, text='MONDAY').grid(row=row, column=1, sticky='e', padx=(0, 10))
-        ttk.Label(dialog, text='MONDAY').grid(row=row, column=5, sticky='e', padx=(0, 10))
+            e = tk.Entry(dialog)
+            e.insert('0', timings[t].time)
+            e.configure(state=DISABLED)
+            e.grid(row=row+t, column=2, sticky='ew', padx=(0, 10))
 
-        e = tk.Entry(dialog)
-        e.insert('0', '10')
-        e.configure(state=DISABLED)
-        e.grid(row=row, column=2, sticky='ew', padx=(0, 10))
-
-        e = tk.Entry(dialog)
-        e.insert('0', '10')
-        e.grid(row=row, column=6, sticky='ew', padx=(0, 10))
+            e = tk.Entry(dialog)
+            e.insert('0', timings[t].time)
+            e.grid(row=row+t, column=6, sticky='ew', padx=(0, 10))
 
 
     def _add_vertical_seperator(self, dialog):
@@ -292,9 +354,9 @@ class BankPage(tk.Frame):
     def _add_text_widget(self, parent, row, key, value, extra_options={}):
         # Existing details
         ttk.Label(parent, text=key).grid(row=row, column=0, sticky='ew', padx=(10, 10), pady=(10, 0))
-        existing_text = tk.Text(parent, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237), **extra_options)
+        existing_text = tk.Text(parent, **extra_options)
         existing_text.insert(END, value)
-        existing_text.config(state=DISABLED)
+        existing_text.config(state=DISABLED, relief='sunken', background='#%02x%02x%02x' % (240, 240, 237))
         existing_text.grid(row=row, column=1, columnspan=2, sticky='ew', padx=(10, 10), pady=(10, 0))
 
         # Editable details
@@ -326,7 +388,7 @@ class BankPage(tk.Frame):
         widget_to_destroy.destroy()
         self._display_contents()
 
-    def _setup_edit_bank_dialog(self, dialog):
+    def _setup_edit_bank_window(self, dialog):
         """
         This method will:
             Set the dimensions of dialog box,
@@ -340,6 +402,9 @@ class BankPage(tk.Frame):
         dialog_y_cord = int((self.winfo_screenheight() - dailog_height) / 2) - 10
         dialog.geometry(f'{dailog_width}x{dailog_height}+{dialog_x_cord}+{dialog_y_cord}')
         dialog.focus_force()
+
+        for i in (0, 2, 4, 6):
+            dialog.grid_columnconfigure(i, weight=1)
 
     def _add_bottom_buttons(self, dialog, bank, row):
 
