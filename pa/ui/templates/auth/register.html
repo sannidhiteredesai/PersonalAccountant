@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block scripts %}
+{{ super() }}
+<!--<script>-->
+    <!--$(document).ready(function() {-->
+        <!--&lt;!&ndash;var show = "<img src=\"static/images/eye.jpg\"&ndash;&gt;-->
+                 <!--&lt;!&ndash;onmouseover="mouseoverPass();"&ndash;&gt;-->
+                 <!--&lt;!&ndash;onmouseout="mouseoutPass();"&ndash;&gt;-->
+                 <!--&lt;!&ndash;style="width: 20px;" />";&ndash;&gt;-->
+        <!--$( ' <img src="static/images/eye.jpg" style="width: 20px;" />' ).insertAfter( ".control-label" );-->
+
+        <!--getPwdInputs();-->
+
+    <!--});-->
+
+    <!--function getPwdInputs() {-->
+  <!--var ary = [];-->
+  <!--var inputs = document.getElementsByTagName("input");-->
+  <!--for (var i=0; i<inputs.length; i++) {-->
+
+    <!--if (inputs[i].type.toLowerCase() === "password") {-->
+        <!--alert(inputs[i].type.toLowerCase());-->
+      <!--ary.push(inputs[i]);-->
+    <!--}-->
+  <!--}-->
+  <!--return ary;-->
+<!--}-->
+
+
+<!--</script>-->
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    img{
+        margin-left: 10px;
+    }
+
+</style>
+{% endblock %}
+
+{% block app_content %}
+
+<h3 style="text-align: center;">Registration Form</h3>
+
+<br>
+
+<div class="row" style="display: flex; justify-content: center; align-items: center;">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+{% endblock %}

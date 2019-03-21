@@ -1,12 +1,9 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-
-# Unit test 
-.pytest_cache/
-
-#Coverage reports
-htmlcov/
-.coverage
-
-# IDE files and folders
+build
+__pycache__
+.pytest_cache
 .idea
+*.spec
+.env
+db.json
+notes.txt
+entry.py

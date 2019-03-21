@@ -2,7 +2,7 @@
     Personal Accountant Software
 """
 
-from pa.ui.appui import PersonalAccountantApp, start
+from pa.ui import app
 
-APP = PersonalAccountantApp()
-start(APP)
+if __name__ == '__main__':
+    app.run(port=5000)
