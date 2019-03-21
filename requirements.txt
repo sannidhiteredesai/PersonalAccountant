@@ -4,6 +4,6 @@ Flask-Login==0.4.0
 Flask-WTF==0.14.2
 pylint==2.1.1
 pytest==3.8.1
-pytest-cov=2.6.0
+pytest-cov==2.6.0
 python-dotenv==0.7.1
 tinydb==3.12.2
