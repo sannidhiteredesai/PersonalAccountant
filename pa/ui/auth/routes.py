@@ -1,9 +1,9 @@
+from flask_login import current_user, login_user, logout_user
+from flask import render_template, redirect, url_for, flash
 from pa.ui import app
 from pa.ui import login_manager
 from pa.pa.user import Users, User
 from pa.ui.auth.forms import RegistrationForm, LoginForm
-from flask_login import current_user, login_user, logout_user
-from flask import render_template, redirect, url_for, flash
 from pa.ui.auth.login import LoginUser
 
 

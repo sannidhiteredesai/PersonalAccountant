@@ -1,5 +1,5 @@
-from pa.ui import app
 from flask import render_template
+from pa.ui import app
 
 @app.route('/info', methods=['GET'])
 def info():

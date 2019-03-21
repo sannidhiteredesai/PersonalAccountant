@@ -1,7 +1,7 @@
-from pa import get_db
-from pa.config import Config
 from tinydb import Query
 from werkzeug.security import generate_password_hash, check_password_hash
+from pa import get_db
+from pa.config import Config
 
 
 class UserDB:
@@ -34,4 +34,3 @@ class UserDB:
     def get_user(self, username):
         users = self.db.search(Query().username == username)
         return users[0] if users else None
-

@@ -1,8 +1,8 @@
 import enum
 from pa.pa.user import Users
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, Label, SelectField, DateField, IntegerField
-from wtforms.validators import DataRequired, EqualTo, ValidationError, Length, NumberRange
+from wtforms import StringField, PasswordField, SubmitField, SelectField, DateField
+from wtforms.validators import DataRequired, EqualTo, ValidationError
 
 
 class Validations:
@@ -28,7 +28,7 @@ class Validations:
         return Users().exists(username)
 
 
-class SECRET_QUESTIONS(enum.Enum):
+class SecretQuestions(enum.Enum):
     BIRTH_PLACE = 'What was your birth place ?'
     SCHOOL_NAME = 'What was your school name ?'
     COLLEGE_NAME = 'What was your college name ?'
@@ -36,7 +36,7 @@ class SECRET_QUESTIONS(enum.Enum):
     @staticmethod
     def get_questions():
         questions = []
-        for question in SECRET_QUESTIONS:
+        for question in SecretQuestions:
             questions.append((question.name, question.value))
         return questions
 
@@ -52,7 +52,7 @@ class RegistrationForm(FlaskForm):
                     validators=[DataRequired(message='Please provide a valid date in dd/mm/yyyy format.')])
 
     question = SelectField('Secret Question',
-                           choices=[('', 'Please select an option')] + SECRET_QUESTIONS.get_questions(),
+                           choices=[('', 'Please select an option')] + SecretQuestions.get_questions(),
                            validators=[DataRequired()])
     answer = StringField('Answer to Secret Question', validators=[DataRequired()])
 

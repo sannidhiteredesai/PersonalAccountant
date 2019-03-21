@@ -1,9 +1,9 @@
-Flask-WTF==0.14.2
-Flask-Login==0.4.0
-Flask-Bootstrap==3.3.7.1
 Flask==1.0.2
-python-dotenv
-pytest
-pytest-cov
-pylint
+Flask-Bootstrap==3.3.7.1
+Flask-Login==0.4.0
+Flask-WTF==0.14.2
+pylint==2.1.1
+pytest==3.8.1
+pytest-cov=2.6.0
+python-dotenv==0.7.1
 tinydb==3.12.2

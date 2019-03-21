@@ -1,7 +1,7 @@
-from pa.ui import app
-from pa.ui.members.forms import MemberForm
 from flask import render_template, flash
 from flask_login import login_required
+from pa.ui import app
+from pa.ui.members.forms import MemberForm
 
 
 @login_required
