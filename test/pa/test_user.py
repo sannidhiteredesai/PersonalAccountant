@@ -1,6 +1,7 @@
+from datetime import datetime
 from unittest import TestCase
 from pa.pa.user import User
-from datetime import datetime
+
 
 class TestUser(TestCase):
 
