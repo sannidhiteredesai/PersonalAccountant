@@ -5,7 +5,7 @@ from pa.pa.user import User
 
 class TestUser(TestCase):
 
-    def test_user_exists(self):
+    def test_user_transformations(self):
         user = User({
             'username': 'user1',
             'password': 'password',
