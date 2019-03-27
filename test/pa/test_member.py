@@ -33,4 +33,8 @@ class TestMember(TestCase):
         mock_exists.return_value = True if {'membername': 'm4', 'username': 'u1'} in self.mock_members else False
         self.assertFalse(members.exists(member='m4', for_user='u1'))
 
-    # TODO - Test for add method
+    @patch('pa.db.member.MemberDB.add')
+    def test_add_member(self, mock_add):
+        members = Members(config=TestConfig)
+        members.add(member='m1', for_user='u1')
+        mock_add.assert_called_with('m1', 'u1')
