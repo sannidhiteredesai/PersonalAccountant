@@ -12,7 +12,7 @@ class Members:
         return self.members.exists(member, for_user)
 
     def get_members_of_user(self, user):
-        """Returns sorted list of members"""
+        """Returns sorted list of members of a particular user"""
         members = []
         for member in self.members.get_members(for_user=user):
             if 'membername' in member:

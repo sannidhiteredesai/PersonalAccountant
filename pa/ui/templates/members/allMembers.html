@@ -1,25 +1,35 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block app_content %}
-All Members,
-<button data-toggle="collapse" data-target="#new">Add</button>
+{% block styles %}
+    {{ super() }}
+    <style>
+        .control-label{
+            float: left;
+            width: 0%;
+        }
+        #membername{
+            float: left;
+            width: 50%;
+        }
+    </style>
+{% endblock %}
 
-<div id="new" class="collapse" style="width: 50%;">
-    Please add name of new member:
-    {{ wtf.quick_form(form) }}
-    <form>
-        <input id="yourid"
-               style="text-transform: uppercase"
-               type="text"
-               pattern='^[A-Z\-]+$'
-               title="Only names with uppercase and hyphen '-' are allowed"/>
-    </form>
-</div>
+{% block app_content %}
 
 <div class="row">
-    <div class="col-md-4">
-        <table class="table table-striped" id="owned_stock_table">
+    <div class="col-md-6">
+    {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped" id="members_table">
+            {% if members %}
             <thead>
             <tr>
                 <th>Member</th>
@@ -27,20 +37,18 @@ All Members,
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Member name</td>
-                <td>Edit, Delete</td>
-            </tr>
-            <tr>
-                <td>Member name</td>
-                <td>Edit</td>
-            </tr>
-            <tr>
-                <td>Member name</td>
-                <td>Edit</td>
-            </tr>
+                {% for member in members %}
+                <tr>
+                    <td>{{member}}</td>
+                    <td>Edit, Delete</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <p>No members found yet !!</p>
+            {% endif %}
             </tbody>
         </table>
     </div>
 </div>
+
 {% endblock %}
