@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    {% if banks %}
+        <h1>All bank branches:
+            <i class="fa fa-plus-circle" style="font-size: 35px" data-toggle="modal" data-target="#addBankModal"></i>
+        </h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-striped" id="members_table">
+                    <thead>
+                    <tr>
+                        <th>Bank</th>
+                        <th>Branch</th>
+                        <th>Address</th>
+                        <th>Timings</th>
+                        <th>Modify</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for bank in banks %}
+                        <tr>
+                            <td>{{bank.name}}</td>
+                            <td>{{bank.branch}}</td>
+                            <td>{{bank.address}}</td>
+                            <td>{{bank.timings}}</td>
+                            <td>Edit, Delete</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        No branches found !! Click here to add new bank
+    {% endif %}
+
+    <!-- Add Bank Modal -->
+    <div class="modal fade" id="addBankModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please provide bank branch details:</h4>
+                </div>
+                <div class="modal-body">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

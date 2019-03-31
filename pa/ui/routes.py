@@ -4,6 +4,7 @@ from pa.ui import app
 from pa.ui.auth import routes
 from pa.ui.info import routes
 from pa.ui.members import routes
+from pa.ui.bank import routes
 
 @app.route('/')
 @login_required
