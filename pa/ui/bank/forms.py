@@ -9,6 +9,3 @@ class AddBankBranchForm(FlaskForm):
     branch_address = TextAreaField('Branch Address', validators=[DataRequired()])
     timings = StringField('Timings', validators=[DataRequired()])
     add_bank = SubmitField('Add Branch')
-
-    def validate_bank_name(self, bank_name):
-        raise ValidationError("Use something else !!")
