@@ -23,3 +23,8 @@ def bank():
     return render_template('bank/bank.html', title='Bank Branches', form=form,
                            banks=banks.get_all_banks(for_user=current_user.username))
 
+
+@login_required
+@app.route('/deleteBank/<bank>/<branch>', methods=['GET'])
+def deleteBank(bank, branch):
+    return '{},{}'.format(bank, branch)

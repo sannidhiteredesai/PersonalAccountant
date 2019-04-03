@@ -10,13 +10,33 @@
                 $('#addBankModal').modal('show');
             }
         });
+
+        function delBank(bank, branch){
+            var txt;
+            var r = confirm("Delete BANK( "+bank+" ), BRANCH( "+branch+" ). Do you want to continue ?");
+            if (r == true) {
+                window.location.href = '/deleteBank/'+bank+'/'+branch
+            }
+        }
     </script>
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        i{
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+    </style>
 {% endblock %}
 
 {% block app_content %}
     {% if banks %}
         <h1>All bank branches:
-            <i class="fa fa-plus-circle" style="font-size: 35px" data-toggle="modal" data-target="#addBankModal"></i>
+            <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+               data-toggle="modal" data-target="#addBankModal"></i>
         </h1>
 
         <div class="row">
@@ -34,11 +54,16 @@
                     <tbody>
                         {% for bank in banks %}
                         <tr>
-                            <td>{{bank.name}}</td>
-                            <td>{{bank.branch}}</td>
-                            <td>{{bank.address}}</td>
+                            <td>{{bank.bank_name}}</td>
+                            <td>{{bank.bank_branch}}</td>
+                            <td>{{bank.branch_address}}</td>
                             <td>{{bank.timings}}</td>
-                            <td>Edit, Delete</td>
+                            <td>
+                                <span onclick=""><i class="fa fa-pencil" style="color:darkblue;"></i></span>
+                                <span onclick="delBank('{{bank.bank_name}}', '{{bank.bank_branch}}')">
+                                    <i class="fa fa-remove" style="color:red;"></i>
+                                </span>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -46,7 +71,10 @@
             </div>
         </div>
     {% else %}
-        No branches found !! Click here to add new bank
+        No branches found !! Click here
+        <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+           data-toggle="modal" data-target="#addBankModal"></i>
+        to add new bank
     {% endif %}
 
     <!-- Add Bank Modal -->
