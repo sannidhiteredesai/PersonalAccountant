@@ -2,20 +2,24 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 from pa.ui import app
 from pa.ui.bank.forms import AddBankBranchForm
+from pa.pa.bank import Banks
+
 
 @login_required
 @app.route('/bank', methods=['GET', 'POST'])
 def bank():
+    banks = Banks()
     form = AddBankBranchForm()
-    banks = [
-        {
-            'name': 'BANK'+str(i),
-            'branch': 'BRANCH'+str(i),
-            'address': 'ADDRESS line 1, line 2, line 3 '+str(i),
-            'timings': 'timings'+str(i),
-        }
-        for i in range (1,6)
-    ]
+
     if form.validate_on_submit():
-        return 'Trying to save : '+str(form.data)
-    return render_template('bank/bank.html', title='Bank Branches', form=form, banks=banks)
+        banks.add({
+            'bank_name': form.bank_name.data,
+            'bank_branch': form.bank_branch.data,
+            'branch_address': form.branch_address.data,
+            'timings': form.timings.data,
+        }, for_user=current_user.username)
+        return redirect(url_for('bank'))
+    
+    return render_template('bank/bank.html', title='Bank Branches', form=form,
+                           banks=banks.get_all_banks(for_user=current_user.username))
+
