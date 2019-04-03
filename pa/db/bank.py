@@ -8,10 +8,7 @@ class BankDB:
         self.db = get_db(config).table('banks')
 
     def add(self, new_bank):
-        # new_bank.update({'username': for_user})
-        # self.db.insert(new_bank)
-        pass
+        self.db.insert(new_bank)
 
     def get_all_banks(self, for_user):
-        pass
-
+        return self.db.search(Query().username == for_user)
