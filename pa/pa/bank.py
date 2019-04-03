@@ -25,3 +25,8 @@ class Banks:
     def get_all_bank_branch_names(self, for_user):
         banks = self.banks.get_all_banks(for_user=for_user)
         return [{'bank_name': bank['bank_name'], 'bank_branch': bank['bank_branch']} for bank in banks]
+
+    def get_all_branches_of_a_bank(self, bank_name, for_user):
+        banks = self.banks.get_all_banks(for_user=for_user)
+        return sorted([bank['bank_branch'] for bank in banks if bank['bank_name']==bank_name])
+

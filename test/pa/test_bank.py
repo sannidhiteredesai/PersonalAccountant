@@ -64,4 +64,14 @@ class TestBank(TestCase):
         all_bank_branch_names = banks.get_all_bank_branch_names(for_user='u1')
         self.assertEqual(expected_all_bank_branch_names, all_bank_branch_names)
 
-    def test_get_all_branches_of_a_bank(self): pass
+    @patch('pa.db.bank.BankDB.get_all_banks')
+    def test_get_all_branches_of_a_bank(self, mock_get_all_banks):
+        mock_get_all_banks.return_value = [
+            {'bank_name': 'b1', 'bank_branch': 'br1', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
+            {'bank_name': 'b1', 'bank_branch': 'br3', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
+            {'bank_name': 'b1', 'bank_branch': 'br2', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
+            {'bank_name': 'b2', 'bank_branch': 'br4', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
+        ]
+        banks = Banks(TestConfig)
+        branch_names = banks.get_all_branches_of_a_bank(bank_name='b1', for_user='u1')
+        self.assertEqual(['br1', 'br2', 'br3'], branch_names)
