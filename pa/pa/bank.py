@@ -30,3 +30,6 @@ class Banks:
         banks = self.banks.get_all_banks(for_user=for_user)
         return sorted([bank['bank_branch'] for bank in banks if bank['bank_name']==bank_name])
 
+    def delete_bank_branch(self, bank_name, bank_branch, username):
+        self.banks.delete_bank_branch(bank_name=bank_name, bank_branch=bank_branch, username=username)
+

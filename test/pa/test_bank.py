@@ -75,3 +75,9 @@ class TestBank(TestCase):
         banks = Banks(TestConfig)
         branch_names = banks.get_all_branches_of_a_bank(bank_name='b1', for_user='u1')
         self.assertEqual(['br1', 'br2', 'br3'], branch_names)
+
+    @patch('pa.db.bank.BankDB.delete_bank_branch')
+    def test_delete_bank_branch(self, mock_delete_bank_branch):
+        banks = Banks(TestConfig)
+        banks.delete_bank_branch(bank_name='b1', bank_branch='br1', username='u1')
+        mock_delete_bank_branch.assert_called_with(bank_name='b1', bank_branch='br1', username='u1')

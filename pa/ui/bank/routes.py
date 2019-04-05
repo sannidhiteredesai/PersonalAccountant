@@ -25,6 +25,10 @@ def bank():
 
 
 @login_required
-@app.route('/deleteBank/<bank>/<branch>', methods=['GET'])
-def deleteBank(bank, branch):
-    return '{},{}'.format(bank, branch)
+@app.route('/deleteBankBranch/<bank>/<branch>', methods=['GET'])
+def delete_bank_branch(bank, branch):
+    banks = Banks()
+    banks.delete_bank_branch(bank_name=bank, bank_branch=branch, username=current_user.username)
+    flash(f'Deleted bank( {bank} ), branch( {branch} ) successfully !!')
+    return redirect(url_for('bank'))
+
