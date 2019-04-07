@@ -54,11 +54,10 @@ class TestBank(TestCase):
             {'bank_name': 'b1', 'bank_branch': 'br2', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
             {'bank_name': 'b2', 'bank_branch': 'br3', 'branch_address': 'aa', 'timings': '', 'username': 'u1'},
         ]
-        expected_all_bank_branch_names = [
-            {'bank_name': 'b1', 'bank_branch': 'br1'},
-            {'bank_name': 'b1', 'bank_branch': 'br2'},
-            {'bank_name': 'b2', 'bank_branch': 'br3'},
-        ]
+        expected_all_bank_branch_names = {
+            'b1': ['br1', 'br2'],
+            'b2': ['br3'],
+        }
 
         banks = Banks(TestConfig)
         all_bank_branch_names = banks.get_all_bank_branch_names(for_user='u1')

@@ -24,12 +24,17 @@ class Banks:
 
     def get_all_bank_branch_names(self, for_user):
         banks = self.banks.get_all_banks(for_user=for_user)
-        return [{'bank_name': bank['bank_name'], 'bank_branch': bank['bank_branch']} for bank in banks]
+        bank_branches = {}
+        for bank in banks:
+            if bank['bank_name'] in bank_branches:
+                bank_branches[bank['bank_name']].append(bank['bank_branch'])
+            else:
+                bank_branches[bank['bank_name']] = [bank['bank_branch']]
+        return bank_branches
 
     def get_all_branches_of_a_bank(self, bank_name, for_user):
         banks = self.banks.get_all_banks(for_user=for_user)
-        return sorted([bank['bank_branch'] for bank in banks if bank['bank_name']==bank_name])
+        return sorted([bank['bank_branch'] for bank in banks if bank['bank_name'] == bank_name])
 
     def delete_bank_branch(self, bank_name, bank_branch, username):
         self.banks.delete_bank_branch(bank_name=bank_name, bank_branch=bank_branch, username=username)
-
