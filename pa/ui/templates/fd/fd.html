@@ -3,13 +3,15 @@
 {% block scripts %}
     {{ super() }}
     <script>
-        <!--$( document ).ready(function() {-->
-            <!--// If some error exists the modal should remain open-->
-            <!--var errors = document.getElementsByClassName("has-error");-->
-            <!--if (errors.length > 0) {-->
-                <!--$('#addFD').modal('show');-->
-            <!--}-->
-        <!--});-->
+        $( document ).ready(function() {
+            // If some error exists the modal should remain open
+            var errors = document.getElementsByClassName("has-error");
+            if (errors.length > 0) {
+                $('#addFD').modal('show');
+            }
+
+            $("#bank_name").click(function(){ changeBranches(); });
+        });
 
         <!--function delfd(fd, branch){-->
             <!--var txt;-->
@@ -18,6 +20,21 @@
                 <!--window.location.href = '/deletefdBranch/'+fd+'/'+branch-->
             <!--}-->
         <!--}-->
+
+        function changeBranches(){
+            var selected_bank = document.getElementById('bank_name').value;
+            {% for b in branches %}
+                var bank = {{ b|tojson }};
+                if (bank === selected_bank){
+                    var branches = {{ branches[b]|tojson }};
+                    for (var i in branches){
+                        var branch_dropdown = document.getElementById('bank_branch');
+                        branch_dropdown.options[+i + 1] = new Option(branches[i], branches[i]);
+                    }
+                }
+            {% endfor %}
+        }
+
     </script>
 {% endblock %}
 
