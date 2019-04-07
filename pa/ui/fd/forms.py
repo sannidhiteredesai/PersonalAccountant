@@ -1,31 +1,53 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, SelectField
+from wtforms import SubmitField, SelectField, StringField, DateField, FloatField
 from wtforms.validators import DataRequired
-from pa.pa.bank import Banks
-
-banks = Banks()
 
 
-def FDForm(current_user):
+def FDForm(banks, members):
     class FDFormContents(FlaskForm):
-        fd_bank = SelectField('Bank Name',
-                              choices=[('', 'Select')] +
-                                      [(b['bank_name'], b['bank_name']) for b in
-                                       banks.get_all_bank_branch_names(current_user.username)],
-                              validators=[DataRequired()])
-        # bank_branch = None  # Select Field
-        # first_name = None  # Select Field
-        # joint_name = None  # Select Field
-        # mode = None  # RadioField
-        # type = None  # RadioField
-        # interest_account = None  # StringField
-        # fd_number = None  # StringField
-        # start_date = None  # DateField
-        # end_date = None  # DateField
-        # days = None  # StringField
-        # roi = None  # FloatField
-        # princpal_amount = None  # FloatField
-        # maturity_amount = None  # FloatField
+        bank_name = SelectField('Bank Name',
+                                choices=[('', 'Select')] + [(b, b) for b in banks],
+                                validators=[DataRequired()])
+
+        bank_branch = SelectField('Bank Branch',
+                                  choices=[('', 'Select')],
+                                  validators=[DataRequired()])
+
+        first_name = SelectField('First Name',
+                                 choices=[('', 'Select')] + [(m, m) for m in members],
+                                 validators=[DataRequired()])
+
+        joint_name = SelectField('Joint Name',
+                                 choices=[('', 'Select')] + [(m, m) for m in members])
+
+        mode = SelectField('Mode of Operation',
+                           choices=[('Ei/Sur', 'Ei/Sur'), ('Single', 'Single')],
+                           validators=[DataRequired()])
+
+        type = SelectField('Type',
+                           choices=[('Cumulative', 'Cumulative'), ('Quarterly', 'Quarterly')],
+                           validators=[DataRequired()])
+
+        interest_account = StringField('Interest Credited In Account')
+
+        fd_number = StringField('FD Number', validators=[DataRequired()])
+
+        start_date = DateField('Start Date [ dd/mm/yyyy ]',
+                               format='%d/%m/%Y',
+                               validators=[DataRequired(message='Please provide a valid date in dd/mm/yyyy format.')])
+
+        end_date = DateField('Maturity Date [ dd/mm/yyyy ]',
+                             format='%d/%m/%Y',
+                             validators=[DataRequired(message='Please provide a valid date in dd/mm/yyyy format.')])
+
+        period = StringField('Period', validators=[DataRequired()])
+
+        roi = FloatField('Rate of Interest', validators=[DataRequired()])
+
+        princpal_amount = FloatField('Principal Amount', validators=[DataRequired()])
+
+        maturity_amount = FloatField('Maturity Amount', validators=[DataRequired()])
+
         add_bank = SubmitField('Add FD')
 
     return FDFormContents()
