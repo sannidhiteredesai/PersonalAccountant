@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        <!--$( document ).ready(function() {-->
+            <!--// If some error exists the modal should remain open-->
+            <!--var errors = document.getElementsByClassName("has-error");-->
+            <!--if (errors.length > 0) {-->
+                <!--$('#addFD').modal('show');-->
+            <!--}-->
+        <!--});-->
+
+        <!--function delfd(fd, branch){-->
+            <!--var txt;-->
+            <!--var r = confirm("Delete fd( "+fd+" ), BRANCH( "+branch+" ). Do you want to continue ?");-->
+            <!--if (r == true) {-->
+                <!--window.location.href = '/deletefdBranch/'+fd+'/'+branch-->
+            <!--}-->
+        <!--}-->
+    </script>
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        <!--i{-->
+            <!--font-size: 20px;-->
+            <!--cursor: pointer;-->
+            <!--margin-right: 5px;-->
+        <!--}-->
+    </style>
+{% endblock %}
+
+{% block app_content %}
+    {% if fds %}
+        <h1>All FDs:
+            <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+               data-toggle="modal" data-target="#addFD"></i>
+        </h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-striped" id="fds_table">
+                    <thead>
+                    <tr>
+                        <th>Bank</th>
+                        <th>Branch</th>
+                        <th>First Name</th>
+                        <th>Joint Name</th>
+                        <th>Mode</th>
+                        <th>Type</th>
+                        <th>Interest Credited In</th>
+                        <th>FD Number</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Days</th>
+                        <th>ROI</th>
+                        <th>Principal</th>
+                        <th>Maturity Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for fd in fds %}
+                        <tr>
+                            <td>{{fd.fd_bank}}</td>
+                            <td>{{fd.bank_branch}}</td>
+                            <td>{{fd.first_name}}</td>
+                            <td>{{fd.joint_name}}</td>
+                            <td>{{fd.mode}}</td>
+                            <td>{{fd.type}}</td>
+                            <td>{{fd.interest_account}}</td>
+                            <td>{{fd.fd_number}}</td>
+                            <td>{{fd.start_date}}</td>
+                            <td>{{fd.end_date}}</td>
+                            <td>{{fd.days}}</td>
+                            <td>{{fd.roi}}</td>
+                            <td>{{fd.princpal_amount}}</td>
+                            <td>{{fd.maturity_amount}}</td>
+                            <td>
+                                <span onclick=""><i class="fa fa-pencil" style="color:darkblue;"></i></span>
+                                <span onclick="delfd('{{fd.fd_name}}', '{{fd.fd_branch}}')">
+                                    <i class="fa fa-remove" style="color:red;"></i>
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        No branches found !! Click here
+        <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+           data-toggle="modal" data-target="#addFD"></i>
+        to add new fd
+    {% endif %}
+
+    <!-- Add fd Modal -->
+    <div class="modal fade" id="addFD" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please provide fd branch details:</h4>
+                </div>
+                <div class="modal-body">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
