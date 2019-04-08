@@ -10,6 +10,7 @@
                 $('#addFD').modal('show');
             }
 
+            document.getElementById('bank_branch').disabled = true;
             $("#bank_name").click(function(){ changeBranches(); });
         });
 
@@ -27,10 +28,18 @@
                 var bank = {{ b|tojson }};
                 if (bank === selected_bank){
                     var branches = {{ branches[b]|tojson }};
+
+                    $('#bank_branch').find('option').remove().end().append('<option value="">Select</option>');
                     for (var i in branches){
                         var branch_dropdown = document.getElementById('bank_branch');
                         branch_dropdown.options[+i + 1] = new Option(branches[i], branches[i]);
                     }
+                }
+                if (selected_bank === ''){
+                    document.getElementById('bank_branch').disabled = true;
+                }
+                else{
+                    document.getElementById('bank_branch').disabled = false;
                 }
             {% endfor %}
         }
