@@ -36,7 +36,7 @@ class TestBank(TestCase):
             'maturity_amount': 5000.0,
         }, for_user='u1')
 
-        mock_add.assert_called_with(fd={
+        mock_add.assert_called_with(new_fd={
             'bank_name': 'bank1',
             'bank_branch': 'branch1',
             'first_name': 'FirstName',
