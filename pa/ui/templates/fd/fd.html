@@ -10,7 +10,9 @@
                 $('#addFD').modal('show');
             }
 
-            document.getElementById('bank_branch').disabled = true;
+            if (document.getElementById('bank_name').value === ''){
+                document.getElementById('bank_branch').disabled = true;
+            }
             $("#bank_name").click(function(){ changeBranches(); });
         });
 
