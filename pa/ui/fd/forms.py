@@ -10,7 +10,8 @@ def FDForm(banks, members):
                                 validators=[DataRequired()])
 
         bank_branch = SelectField('Bank Branch',
-                                  choices=[('', 'Select')],
+                                  choices=[('', 'Select')] + [(branch, branch) for branches in banks.values()
+                                                              for branch in branches],
                                   validators=[DataRequired()])
 
         first_name = SelectField('First Name',
