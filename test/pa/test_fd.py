@@ -93,3 +93,9 @@ class TestBank(TestCase):
         mock_get_all_fds.return_value = [fd1, fd2, fd3]
         self.assertEqual([fd1_without_username, fd2_without_username, fd3_without_username],
                          fds.get_all_fds(for_user='u1'))
+
+    @patch('pa.db.fd.FdDB.delete_fd')
+    def test_add_fd(self, mock_delete):
+        fds = FDs(TestConfig)
+        fds.delete_fd(fd_number='fd1', bank_name='b1', bank_branch='br1', for_user='u1')
+        mock_delete.assert_called_with(fd_number='fd1', bank_name='b1', bank_branch='br1', for_user='u1')

@@ -18,6 +18,9 @@ class FDs:
             del fd['username']
         return fds
 
+    def delete_fd(self, fd_number, bank_name, bank_branch, for_user):
+        self.fds.delete_fd(fd_number=fd_number, bank_name=bank_name, bank_branch=bank_branch, for_user=for_user)
+
     @staticmethod
     def date_to_str(datetime_object):
         return datetime_object.strftime("%Y%m%d")

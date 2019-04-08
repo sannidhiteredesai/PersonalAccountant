@@ -40,3 +40,12 @@ def fd():
 
     return render_template('fd/fd.html', title='Fixed Deposits', form=form,
                            fds=fds.get_all_fds(current_user.username), branches=bank_branches)
+
+
+@login_required
+@app.route('/deleteFD/<fd_number>/<bank_name>/<bank_branch>', methods=['GET'])
+def delete_fd(fd_number, bank_name, bank_branch):
+    fds = FDs()
+    fds.delete_fd(fd_number=fd_number, bank_name=bank_name, bank_branch=bank_branch, for_user=current_user.username)
+    flash(f'Deleted fd( {fd_number} ) from bank( {bank_name} ), branch( {bank_branch} ) successfully !!')
+    return redirect(url_for('fd'))

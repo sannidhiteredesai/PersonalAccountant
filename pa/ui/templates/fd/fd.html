@@ -16,13 +16,13 @@
             $("#bank_name").click(function(){ changeBranches(); });
         });
 
-        <!--function delfd(fd, branch){-->
-            <!--var txt;-->
-            <!--var r = confirm("Delete fd( "+fd+" ), BRANCH( "+branch+" ). Do you want to continue ?");-->
-            <!--if (r == true) {-->
-                <!--window.location.href = '/deletefdBranch/'+fd+'/'+branch-->
-            <!--}-->
-        <!--}-->
+        function delFD(fd, bank, branch){
+            var txt;
+            var r = confirm("Delete fd( "+fd+" ), BANK( "+bank+" ), BRANCH( "+branch+" ). Do you want to continue ?");
+            if (r == true) {
+                window.location.href = '/deleteFD/'+fd+'/'+bank+'/'+branch
+            }
+        }
 
         function changeBranches(){
             var selected_bank = document.getElementById('bank_name').value;
@@ -52,11 +52,11 @@
 {% block styles %}
     {{ super() }}
     <style>
-        <!--i{-->
-            <!--font-size: 20px;-->
-            <!--cursor: pointer;-->
-            <!--margin-right: 5px;-->
-        <!--}-->
+        i{
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
     </style>
 {% endblock %}
 
@@ -107,7 +107,7 @@
                             <td>{{fd.maturity_amount}}</td>
                             <td>
                                 <span onclick=""><i class="fa fa-pencil" style="color:darkblue;"></i></span>
-                                <span onclick="delfd('{{fd.fd_name}}', '{{fd.fd_branch}}')">
+                                <span onclick="delFD('{{fd.fd_number}}', '{{fd.bank_name}}', '{{fd.bank_branch}}')">
                                     <i class="fa fa-remove" style="color:red;"></i>
                                 </span>
                             </td>
