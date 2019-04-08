@@ -91,7 +91,7 @@
                     <tbody>
                         {% for fd in fds %}
                         <tr>
-                            <td>{{fd.fd_bank}}</td>
+                            <td>{{fd.bank_name}}</td>
                             <td>{{fd.bank_branch}}</td>
                             <td>{{fd.first_name}}</td>
                             <td>{{fd.joint_name}}</td>
@@ -118,7 +118,7 @@
             </div>
         </div>
     {% else %}
-        No branches found !! Click here
+        No FDs found !! Click here
         <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
            data-toggle="modal" data-target="#addFD"></i>
         to add new fd
