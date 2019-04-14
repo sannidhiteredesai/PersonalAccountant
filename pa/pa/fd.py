@@ -18,6 +18,12 @@ class FDs:
             del fd['username']
         return fds
 
+    def get_fds_with_first_name(self, first_name, for_user):
+        fds = self.fds.get_fds_with_first_name(first_name=first_name, for_user=for_user)
+        for fd in fds:
+            del fd['username']
+        return fds
+
     def delete_fd(self, fd_number, bank_name, bank_branch, for_user):
         self.fds.delete_fd(fd_number=fd_number, bank_name=bank_name, bank_branch=bank_branch, for_user=for_user)
 
