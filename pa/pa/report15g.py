@@ -9,6 +9,9 @@ def get_nearest_start_of_month(date):
     after_days = first_day_of_next_month - date
     return first_day_of_this_month if before_days <= after_days else first_day_of_next_month
 
+def number_of_months(date1, date2):
+    return (date2.year - date1.year) * 12 + date2.month - date1.month + 1
+
 # def get_interest_for_next_year(principal, roi, start_date, end_date):
 #     year_start = datetime.datetime.utcnow().strftime("%Y")+'0401'
 #     year_end = str(int(datetime.datetime.utcnow().strftime("%Y"))+1)+'0331'

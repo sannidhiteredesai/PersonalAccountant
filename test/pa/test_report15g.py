@@ -1,4 +1,4 @@
-import datetime.date as date
+from datetime import date
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -17,6 +17,12 @@ class TestReport15G(TestCase):
         self.assertEqual(date(2019, 4, 1), get_nearest_start_of_month(date(2019, 3, 20)))
         self.assertEqual(date(2019, 4, 1), get_nearest_start_of_month(date(2019, 3, 25)))
         self.assertEqual(date(2019, 4, 1), get_nearest_start_of_month(date(2019, 3, 31)))
+
+    def test_number_of_months_between_two_dates(self):
+        self.assertEqual(1, number_of_months(date(2019, 4, 1), date(2019, 4, 1)))
+        self.assertEqual(3, number_of_months(date(2019, 4, 1), date(2019, 6, 1)))
+        self.assertEqual(12, number_of_months(date(2019, 4, 1), date(2020, 3, 1)))
+        self.assertEqual(13, number_of_months(date(2019, 4, 1), date(2020, 4, 1)))
 
     # def test_start_date_less_than_fy(self):
     #     self.assertEqual(4466.20, get_interest_for_next_year(principal=1000,
