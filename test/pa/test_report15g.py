@@ -21,6 +21,7 @@ class TestReport15G(TestCase):
     def test_number_of_months_between_two_dates(self):
         self.assertEqual(0, number_of_months(date(2019, 4, 1), date(2018, 4, 1)))
         self.assertEqual(1, number_of_months(date(2019, 4, 1), date(2019, 4, 1)))
+        self.assertEqual(2, number_of_months(date(2019, 12, 1), date(2020, 1, 1)))
         self.assertEqual(3, number_of_months(date(2019, 4, 1), date(2019, 6, 1)))
         self.assertEqual(12, number_of_months(date(2019, 4, 1), date(2020, 3, 1)))
         self.assertEqual(13, number_of_months(date(2019, 4, 1), date(2020, 4, 1)))
