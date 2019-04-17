@@ -70,8 +70,9 @@ def generate_15g_report(for_member, for_user):
     fds_for_member = fds.get_fds_with_first_name(first_name=for_member, for_user=for_user)
     for fd in fds_for_member:
         if fd['type'] == 'Cumulative':
-            year_start = datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%Y") + '0401', "%Y%m%d")
-            print(number_of_months(datetime.datetime.strptime(fd['start_date'], "%Y%m%d"), year_start))
+            print(get_interest_in_next_year(principal=fd['principal_amount'],
+                                            roi=fd['roi'],
+                                            start_date=datetime.datetime.strptime(fd['start_date'], "%Y%m%d").date()))
 
 
 if __name__ == '__main__':
