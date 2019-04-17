@@ -1,6 +1,5 @@
 from datetime import date
 from unittest import TestCase
-from unittest.mock import patch
 
 from pa.pa.report15g import *
 
@@ -27,8 +26,6 @@ class TestReport15G(TestCase):
         self.assertEqual(13, number_of_months(date(2019, 4, 1), date(2020, 4, 1)))
         self.assertEqual(24, number_of_months(date(2018, 1, 1), date(2019, 12, 1)))
 
-    # def test_start_date_less_than_fy(self):
-    #     self.assertEqual(4466.20, get_interest_for_next_year(principal=1000,
-    #                                                          roi=7.56,
-    #                                                          start_date='20190101',
-    #                                                          end_date='20210101'))
+    def test_interest_in_next_fy(self):
+        self.assertEqual(1104.08, get_interest_in_next_year(principal=1000, roi=8, start_date=date(2019, 1, 10)))
+        self.assertEqual(1068.24, get_interest_in_next_year(principal=1000, roi=8, start_date=date(2019, 6, 10)))
