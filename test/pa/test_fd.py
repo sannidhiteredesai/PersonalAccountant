@@ -32,7 +32,7 @@ class TestFD(TestCase):
             'end_date': datetime.datetime(2020, 1, 2),
             'period': '1 year 1 day',
             'roi': 8.25,
-            'princpal_amount': 5000.0,
+            'principal_amount': 5000.0,
             'maturity_amount': 5000.0,
         }, for_user='u1')
 
@@ -49,7 +49,7 @@ class TestFD(TestCase):
             'end_date': '20200102',
             'period': '1 year 1 day',
             'roi': 8.25,
-            'princpal_amount': 5000.0,
+            'principal_amount': 5000.0,
             'maturity_amount': 5000.0,
             'username': 'u1',
         })
@@ -59,35 +59,35 @@ class TestFD(TestCase):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd3 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber3',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd1_without_username = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName',
                                 'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
                                 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                                 'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day',
-                                'roi': 8.25, 'princpal_amount': 5000.0, 'maturity_amount': 5000.0, }
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
 
         fd2_without_username = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName',
                                 'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
                                 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                                 'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day',
-                                'roi': 8.25, 'princpal_amount': 5000.0, 'maturity_amount': 5000.0, }
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
 
         fd3_without_username = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName',
                                 'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
                                 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber3',
                                 'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day',
-                                'roi': 8.25, 'princpal_amount': 5000.0, 'maturity_amount': 5000.0, }
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
 
         fds = FDs(TestConfig)
         mock_get_all_fds.return_value = [fd1, fd2, fd3]
@@ -99,24 +99,24 @@ class TestFD(TestCase):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name1', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd1_without_username = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1',
                                 'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
                                 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                                 'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day',
-                                'roi': 8.25, 'princpal_amount': 5000.0, 'maturity_amount': 5000.0, }
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
 
         fd2_without_username = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name1',
                                 'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
                                 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                                 'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day',
-                                'roi': 8.25, 'princpal_amount': 5000.0, 'maturity_amount': 5000.0, }
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
 
         fds = FDs(TestConfig)
         mock_get_fds_with_first_name.return_value = [fd1, fd2]

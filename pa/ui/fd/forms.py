@@ -45,7 +45,7 @@ def FDForm(banks, members):
 
         roi = FloatField('Rate of Interest', validators=[DataRequired()])
 
-        princpal_amount = FloatField('Principal Amount', validators=[DataRequired()])
+        principal_amount = FloatField('Principal Amount', validators=[DataRequired()])
 
         maturity_amount = FloatField('Maturity Amount', validators=[DataRequired()])
 

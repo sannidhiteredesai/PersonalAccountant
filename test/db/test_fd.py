@@ -15,17 +15,17 @@ class TestFdDB(TestCase):
         fd1_u1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName', 'joint_name': '',
                   'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                   'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-                  'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+                  'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd1_u2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
                   'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                   'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-                  'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u2', }
+                  'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u2', }
 
         fd2_u2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
                   'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber3',
                   'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-                  'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u2', }
+                  'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u2', }
 
         self.fds.add(new_fd=fd1_u1)
         self.fds.add(new_fd=fd1_u2)
@@ -39,17 +39,17 @@ class TestFdDB(TestCase):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name2', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd3 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name1', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber3',
                'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-               'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         self.fds.add(new_fd=fd1)
         self.fds.add(new_fd=fd2)
@@ -61,12 +61,12 @@ class TestFdDB(TestCase):
         fd1_u1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName', 'joint_name': '',
                   'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'fd1',
                   'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-                  'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+                  'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         fd2_u1 = {'bank_name': 'bank1', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
                   'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'fd2',
                   'start_date': '20190101', 'end_date': '20200102', 'period': '1 year 1 day', 'roi': 8.25,
-                  'princpal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+                  'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
 
         self.fds.add(new_fd=fd1_u1)
         self.fds.add(new_fd=fd2_u1)

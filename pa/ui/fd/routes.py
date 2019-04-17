@@ -31,7 +31,7 @@ def fd():
             'end_date': form.end_date.data,
             'period': form.period.data,
             'roi': form.roi.data,
-            'princpal_amount': form.princpal_amount.data,
+            'principal_amount': form.principal_amount.data,
             'maturity_amount': form.maturity_amount.data
         }
         fds.add(fd=fd, for_user=current_user.username)
