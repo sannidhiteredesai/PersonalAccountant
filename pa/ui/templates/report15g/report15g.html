@@ -5,7 +5,7 @@
 
     <style>
         th {
-          text-align: center;
+            text-align: center;
         }
     </style>
 {% endblock %}
@@ -33,13 +33,41 @@
             </form>
 
             {% if report %}
-                {% for bank, fds in report.items() %}
+                {% for detail in report %}
                 <div class="row">
                     <br>
                     <br>
                     <div class="col-md-8 col-md-offset-2"
                          style="box-shadow: 0 0px 5px 2px rgba(0, 0, 0, 0.2);">
-                        <h2>{{bank[0]}} ( {{bank[1]}} )</h2>
+                        <span style="margin-left: 10px; text-align: left;">
+                            <h2>{{detail['bank_name']}} ( {{detail['bank_branch']}} )</h2>
+                            <p>
+                                <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Estimated income of this declaration</td>
+                                        <td><span style="margin-left: 5px; margin-right: 5px; "> : </span></td>
+                                        <td>{{detail['income_in_this_declaration']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estimated total income in previous yr</td>
+                                        <td><span style="margin-left: 5px; margin-right: 5px; "> : </span></td>
+                                        <td>{{detail['total_income_in_fy']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total 15g forms other than this form</td>
+                                        <td><span style="margin-left: 5px; margin-right: 5px; "> : </span></td>
+                                        <td>{{detail['other_15g_form_count']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Aggregate income of other 15g forms</td>
+                                        <td><span style="margin-left: 5px; margin-right: 5px; "> : </span></td>
+                                        <td>{{detail['other_15g_form_income']}}</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </p>
+                        </span>
                         <table class="table table-hover table-condensed table-responsive table-bordered"
                                id="report_table">
                             <thead>
@@ -51,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for fd in fds %}
+                                {% for fd in detail['fds'] %}
                                 <tr>
                                     <td>{{fd[0]}}</td>
                                     <td>{{fd[1]}}</td>

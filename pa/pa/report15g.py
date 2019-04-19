@@ -21,14 +21,6 @@ def number_of_months(date1, date2):
         months = (date2.year - date1.year) * 12 + date2.month - date1.month + 1
     return months if months > 0 else 0
 
-
-# def get_interest_for_next_year(principal, roi, start_date, end_date):
-#     year_start = datetime.datetime.utcnow().strftime("%Y")+'0401'
-#     year_end = str(int(datetime.datetime.utcnow().strftime("%Y"))+1)+'0331'
-#     print(year_start)
-#     print(year_end)
-#     return 0
-#
 def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, frequencyVal=4):
     # TODO - write tests for this function, refactor te function
 
@@ -67,14 +59,17 @@ def get_interest_in_next_year(principal, roi, start_date):
 
 
 def generate_15g_report(for_member, for_user):
+    # TODO - refactoring
     fds = FDs()
     fds_for_member = fds.get_fds_with_first_name(first_name=for_member, for_user=for_user)
 
     bank_wise_details = {}
+    total_interest_all_branches = 0
     for fd in fds_for_member:
         if fd['type'] == 'Cumulative':
             interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
                                                  start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date())
+            total_interest_all_branches += interest
 
             entry = (fd['fd_number'], 'Interest', '194A', interest)
             if (fd['bank_name'], fd['bank_branch']) not in bank_wise_details:
@@ -82,7 +77,26 @@ def generate_15g_report(for_member, for_user):
             else:
                 bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
 
-    return collections.OrderedDict(sorted(bank_wise_details.items()))
+    bank_wise_details = collections.OrderedDict(sorted(bank_wise_details.items()))
+
+    total_15g_forms = len(bank_wise_details)
+    this_15g_form = 1
+    formatted_15g_report_details = []
+    for bank_and_branch, fds in bank_wise_details.items():
+        this_branch_interest = sum(map(lambda x:x[3], fds))
+        print(list(map(lambda x:x[3], fds)))
+        print(sum(map(lambda x:x[3], fds)))
+        formatted_15g_report_details.append({
+            'bank_name': bank_and_branch[0],
+            'bank_branch': bank_and_branch[1],
+            'income_in_this_declaration': this_branch_interest,
+            'total_income_in_fy': total_interest_all_branches,
+            'other_15g_form_count': total_15g_forms - this_15g_form,
+            'other_15g_form_income': round(total_interest_all_branches - this_branch_interest, 2),
+            'fds': fds,
+        })
+
+    return formatted_15g_report_details
 
 
 if __name__ == '__main__':
