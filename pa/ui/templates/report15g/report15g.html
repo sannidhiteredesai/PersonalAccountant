@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    {{super()}}
+
+    <style>
+        th {
+          text-align: center;
+        }
+    </style>
+{% endblock %}
+
 {% block app_content %}
 
 <br>
@@ -21,6 +31,42 @@
                 </select>
                 <noscript><input type="submit" value="Submit"></noscript>
             </form>
+
+            {% if report %}
+                {% for bank, fds in report.items() %}
+                <div class="row">
+                    <br>
+                    <br>
+                    <div class="col-md-8 col-md-offset-2"
+                         style="box-shadow: 0 0px 5px 2px rgba(0, 0, 0, 0.2);">
+                        <h2>{{bank[0]}} ( {{bank[1]}} )</h2>
+                        <table class="table table-hover table-condensed table-responsive table-bordered"
+                               id="report_table">
+                            <thead>
+                                <tr>
+                                    <th>FD number</th>
+                                    <th>Nature of income</th>
+                                    <th>Section</th>
+                                    <th>Amount of income</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fd in fds %}
+                                <tr>
+                                    <td>{{fd[0]}}</td>
+                                    <td>{{fd[1]}}</td>
+                                    <td>{{fd[2]}}</td>
+                                    <td>{{fd[3]}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+            {% endif %}
+
             {% else %}
             Members not found!! Please add members by <a href="/allMembers"><u>clicking here</u></a>.
             {% endif %}

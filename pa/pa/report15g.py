@@ -1,5 +1,6 @@
+import collections
 from pa.pa.fd import FDs
-import datetime
+from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
@@ -68,11 +69,20 @@ def get_interest_in_next_year(principal, roi, start_date):
 def generate_15g_report(for_member, for_user):
     fds = FDs()
     fds_for_member = fds.get_fds_with_first_name(first_name=for_member, for_user=for_user)
+
+    bank_wise_details = {}
     for fd in fds_for_member:
         if fd['type'] == 'Cumulative':
-            print(get_interest_in_next_year(principal=fd['principal_amount'],
-                                            roi=fd['roi'],
-                                            start_date=datetime.datetime.strptime(fd['start_date'], "%Y%m%d").date()))
+            interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
+                                                 start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date())
+
+            entry = (fd['fd_number'], 'Interest', '194A', interest)
+            if (fd['bank_name'], fd['bank_branch']) not in bank_wise_details:
+                bank_wise_details[(fd['bank_name'], fd['bank_branch'])] = [entry]
+            else:
+                bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
+
+    return collections.OrderedDict(sorted(bank_wise_details.items()))
 
 
 if __name__ == '__main__':
