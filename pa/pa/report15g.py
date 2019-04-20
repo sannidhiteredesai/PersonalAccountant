@@ -39,7 +39,7 @@ def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, freque
     return round(fdMatVal, 2)
 
 
-def get_interest_in_next_year(principal, roi, start_date):
+def get_interest_in_next_year(principal, roi, start_date, frequencyVal=4):
     # TODO - take type 'Cumulative/Simple' as the input, currently only cumulative is supported
     # TODO - make the function more robust, using proper number of months
     # TODO - The year below should be dynamic
@@ -50,12 +50,18 @@ def get_interest_in_next_year(principal, roi, start_date):
     if start_date < fy_start_month:
         relative_start_date = get_nearest_start_of_month(start_date)
         months_in_previous_fy = number_of_months(relative_start_date, fy_start_month) - 1
-        new_principal = calculate_maturity_amount(principal=principal, roi=roi, period=months_in_previous_fy)
-        return calculate_maturity_amount(principal=new_principal, roi=roi, period=12)
+        if frequencyVal == 4:
+            new_principal = calculate_maturity_amount(principal=principal, roi=roi, period=months_in_previous_fy)
+        else:
+            new_principal = principal
+        return round(calculate_maturity_amount(principal=new_principal,
+                                               roi=roi, period=12,
+                                               frequencyVal=frequencyVal) - new_principal, 2)
     else:
         new_start_date = get_nearest_start_of_month(start_date)
         period = number_of_months(new_start_date, fy_end_month)
-        return calculate_maturity_amount(principal=principal, roi=roi, period=period)
+        return round(calculate_maturity_amount(principal=principal, roi=roi, period=period,
+                                               frequencyVal=frequencyVal) - principal, 2)
 
 
 def generate_15g_report(for_member, for_user):
@@ -69,13 +75,17 @@ def generate_15g_report(for_member, for_user):
         if fd['type'] == 'Cumulative':
             interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
                                                  start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date())
-            total_interest_all_branches += interest
+        else:  # Quarterly
+            interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
+                                                 start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date(),
+                                                 frequencyVal=0)
+        total_interest_all_branches += interest
 
-            entry = (fd['fd_number'], 'Interest', '194A', interest)
-            if (fd['bank_name'], fd['bank_branch']) not in bank_wise_details:
-                bank_wise_details[(fd['bank_name'], fd['bank_branch'])] = [entry]
-            else:
-                bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
+        entry = (fd['fd_number'], 'Interest', '194A', interest)
+        if (fd['bank_name'], fd['bank_branch']) not in bank_wise_details:
+            bank_wise_details[(fd['bank_name'], fd['bank_branch'])] = [entry]
+        else:
+            bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
 
     bank_wise_details = collections.OrderedDict(sorted(bank_wise_details.items()))
 
@@ -89,8 +99,8 @@ def generate_15g_report(for_member, for_user):
         formatted_15g_report_details.append({
             'bank_name': bank_and_branch[0],
             'bank_branch': bank_and_branch[1],
-            'income_in_this_declaration': this_branch_interest,
-            'total_income_in_fy': total_interest_all_branches,
+            'income_in_this_declaration': round(this_branch_interest, 2),
+            'total_income_in_fy': round(total_interest_all_branches, 2),
             'other_15g_form_count': total_15g_forms - this_15g_form,
             'other_15g_form_income': round(total_interest_all_branches - this_branch_interest, 2),
             'fds': fds,
