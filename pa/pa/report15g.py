@@ -4,6 +4,8 @@ from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
+Months = collections.namedtuple('Months', ['period'])
+Days = collections.namedtuple('Days', ['period'])
 
 def get_nearest_start_of_month(date):
     first_day_of_this_month = date + relativedelta(day=1)
@@ -20,6 +22,7 @@ def number_of_months(date1, date2):
     else:
         months = (date2.year - date1.year) * 12 + date2.month - date1.month + 1
     return months if months > 0 else 0
+
 
 def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, frequencyVal=4):
     # TODO - write tests for this function, refactor te function
@@ -39,7 +42,7 @@ def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, freque
     return round(fdMatVal, 2)
 
 
-def get_interest_in_next_year(principal, roi, start_date, frequencyVal=4):
+def get_interest_in_next_year(principal, roi, start_date, end_date, frequencyVal=4):
     # TODO - take type 'Cumulative/Simple' as the input, currently only cumulative is supported
     # TODO - make the function more robust, using proper number of months
     # TODO - The year below should be dynamic
@@ -54,14 +57,96 @@ def get_interest_in_next_year(principal, roi, start_date, frequencyVal=4):
             new_principal = calculate_maturity_amount(principal=principal, roi=roi, period=months_in_previous_fy)
         else:
             new_principal = principal
+        relative_end_date = get_nearest_start_of_month(end_date)
+        if relative_end_date < fy_end_month:
+            period = number_of_months(fy_start_month, relative_end_date)
+        else:
+            period = 12
         return round(calculate_maturity_amount(principal=new_principal,
-                                               roi=roi, period=12,
+                                               roi=roi, period=period,
                                                frequencyVal=frequencyVal) - new_principal, 2)
     else:
         new_start_date = get_nearest_start_of_month(start_date)
         period = number_of_months(new_start_date, fy_end_month)
         return round(calculate_maturity_amount(principal=principal, roi=roi, period=period,
                                                frequencyVal=frequencyVal) - principal, 2)
+
+
+def get_period_between(date1, date2):  # Including date1 & Excluding date2
+    if date1 >= date2:
+        return []
+
+    if date2.year == date1.year and date2.month == date1.month:
+        return [Days(date2.day - date1.day)]
+
+    period = []
+    next_month_start = (date1 + relativedelta(months=1)).replace(day=1) if date1.day != 1 else date1
+
+    days_till_next_month = (next_month_start - date1).days if date1.day != 1 else 0
+    months_till_end_date = (date2.year - next_month_start.year) * 12 + \
+                           date2.month - next_month_start.month
+    days_in_end_month = date2.day - 1
+
+    if days_till_next_month: period.append(Days(days_till_next_month))
+    if months_till_end_date: period.append(Months(months_till_end_date))
+    if days_in_end_month: period.append(Days(days_in_end_month))
+
+    if len(period) == 2 and isinstance(period[0], Days) and isinstance(period[1], Days):
+        period = [Days(period[0].period + period[1].period)]
+
+    return period
+
+
+def get_principal_at_end_of_period(principal, roi, period_before_fy):
+    for period in period_before_fy:
+        if isinstance(period, Days):
+            principal = calculate_maturity_amount(principal=principal, roi=roi, period=period.period,
+                                                  tenurePeriodVal=365, frequencyVal=4)
+        if isinstance(period, Months):
+            principal = calculate_maturity_amount(principal=principal, roi=roi, period=period.period,
+                                                  tenurePeriodVal=12, frequencyVal=4)
+    return principal
+
+
+def get_cumulative_interest(principal, roi, start_date, end_date):
+    year = 2019
+    fy_start = date(year, 4, 1)
+    next_fy_start = date(year + 1, 4, 1)
+
+    relative_fd_start = fy_start if start_date < fy_start else start_date
+    relative_fd_end = next_fy_start if end_date >= next_fy_start else end_date
+
+    period_before_fy = get_period_between(relative_fd_start, fy_start)
+    new_principal = get_principal_at_end_of_period(principal, roi, period_before_fy)
+
+    period_in_fy = get_period_between(relative_fd_start, relative_fd_end)
+    return round(get_principal_at_end_of_period(new_principal, roi, period_in_fy) - new_principal, 2)
+
+
+def get_quarterly_interest(principal, roi, start_date, end_date):
+    year = 2019
+    fy_start = date(year, 4, 1)
+    next_fy_start = date(year + 1, 4, 1)
+
+    relative_fd_start = fy_start if start_date < fy_start else start_date
+    relative_fd_end = next_fy_start if end_date >= next_fy_start else end_date
+    period = get_period_between(relative_fd_start, relative_fd_end)
+
+    interest = 0
+    for p in period:
+        if isinstance(p, Months):
+            interest += calculate_maturity_amount(principal=principal,
+                                                  roi=roi,
+                                                  period=p,
+                                                  tenurePeriodVal=12,
+                                                  frequencyVal=0) - principal
+        elif isinstance(p, Days):
+            interest += calculate_maturity_amount(principal=principal,
+                                                  roi=roi,
+                                                  period=p,
+                                                  tenurePeriodVal=365,
+                                                  frequencyVal=0) - principal
+    return round(interest, 2)
 
 
 def generate_15g_report(for_member, for_user):
@@ -74,10 +159,12 @@ def generate_15g_report(for_member, for_user):
     for fd in fds_for_member:
         if fd['type'] == 'Cumulative':
             interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
-                                                 start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date())
+                                                 start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date(),
+                                                 end_date=datetime.strptime(fd['end_date'], "%Y%m%d").date())
         else:  # Quarterly
             interest = get_interest_in_next_year(principal=fd['principal_amount'], roi=fd['roi'],
                                                  start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date(),
+                                                 end_date=datetime.strptime(fd['end_date'], "%Y%m%d").date(),
                                                  frequencyVal=0)
         total_interest_all_branches += interest
 
@@ -93,9 +180,7 @@ def generate_15g_report(for_member, for_user):
     this_15g_form = 1
     formatted_15g_report_details = []
     for bank_and_branch, fds in bank_wise_details.items():
-        this_branch_interest = sum(map(lambda x:x[3], fds))
-        print(list(map(lambda x:x[3], fds)))
-        print(sum(map(lambda x:x[3], fds)))
+        this_branch_interest = sum(map(lambda x: x[3], fds))
         formatted_15g_report_details.append({
             'bank_name': bank_and_branch[0],
             'bank_branch': bank_and_branch[1],
