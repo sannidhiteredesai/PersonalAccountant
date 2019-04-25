@@ -3,12 +3,33 @@ from pa.pa.report15g import *
 from datetime import date
 
 
-# class TestInterest(TestCase):
-#     def test_cumulative_interest(self):
-#         self.assertEqual(2, get_cumulative_interest(principal=47380, roi=7.1,
-#                                                      start_date=date(18, 9, 26), end_date=date(20, 4, 3)))
+class TestInterest(TestCase):
+    # TODO - Add tests for following:
+    # TODO      - start_date < fy and end_date > fy
+    # TODO      - start_date > fy and end_date > fy
+    # TODO      - start_date < fy and end_date < fy
+    # TODO      - start_date > fy and end_date < fy
+
+    def test_cumulative_interest(self):
+        # TODO - use current financial year instead of static values
+        self.assertEqual(103.81, get_cumulative_interest(principal=1000, roi=10, start_date=date(2019, 4, 1),
+                                                         end_date=date(2020, 4, 1)))
+
+        self.assertEqual(5529.3, get_cumulative_interest(principal=78214, roi=6.5, start_date=date(2018, 4, 28),
+                                                         end_date=date(2020, 5, 28)))
+
+    def test_quarterly_interest(self):
+        # TODO - use current financial year instead of static values
+        self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10, start_date=date(2019, 4, 1),
+                                                     end_date=date(2020, 4, 1)))
+
+        self.assertEqual(1625, get_quarterly_interest(principal=25000, roi=6.5, start_date=date(2018, 5, 15),
+                                                     end_date=date(2021, 5, 15)))
 
 class TestPeriodBetween(TestCase):
+
+    # TODO - Use class instead of tuple / change the attribute period
+
     def test_end_date_less_or_equal_to_start_date(self):
         self.assertEqual([], get_period_between(date(2019, 12, 31), date(2018, 3, 1)))
         self.assertEqual([], get_period_between(date(2019, 12, 31), date(2019, 12, 31)))
