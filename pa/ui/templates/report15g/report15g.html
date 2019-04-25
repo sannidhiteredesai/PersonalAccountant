@@ -33,6 +33,10 @@
             </form>
 
             {% if report %}
+                {% if member %}
+                    <br><h1>15g report for {{ member }}</h1>
+                {% endif %}
+
                 {% for detail in report %}
                 <div class="row">
                     <br>

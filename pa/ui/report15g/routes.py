@@ -18,4 +18,5 @@ def report_15g():
         return render_template('report15g/report15g.html', title='15G Report',
                                members=members.get_members_of_user(current_user.username),
                                report=(generate_15g_report(for_member=(request.form['member']),
-                                                           for_user=current_user.username)))
+                                                           for_user=current_user.username)),
+                               member=request.form['member'])
