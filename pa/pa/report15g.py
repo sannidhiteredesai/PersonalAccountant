@@ -63,7 +63,7 @@ def get_principal_at_end_of_period(principal, roi, period_before_fy):
 
 
 def get_cumulative_interest(principal, roi, start_date, end_date):
-    year = 2019
+    year = datetime.now().year
     fy_start = date(year, 4, 1)
     next_fy_start = date(year + 1, 4, 1)
 
@@ -78,7 +78,7 @@ def get_cumulative_interest(principal, roi, start_date, end_date):
 
 
 def get_quarterly_interest(principal, roi, start_date, end_date):
-    year = 2019
+    year = datetime.now().year
     fy_start = date(year, 4, 1)
     next_fy_start = date(year + 1, 4, 1)
 
