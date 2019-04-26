@@ -15,20 +15,23 @@ class TestInterest(TestCase):
         self.this_year = datetime.now().year
 
     def test_cumulative_interest(self):
-        # TODO - use current financial year instead of static values
-        self.assertEqual(103.81, get_cumulative_interest(principal=1000, roi=10, start_date=date(self.this_year, 4, 1),
+        self.assertEqual(103.81, get_cumulative_interest(principal=1000, roi=10,
+                                                         start_date=date(self.this_year, 4, 1),
                                                          end_date=date(self.this_year + 1, 4, 1)))
 
-        self.assertEqual(5529.3, get_cumulative_interest(principal=78214, roi=6.5, start_date=date(self.this_year - 1, 4, 28),
+        self.assertEqual(5529.3, get_cumulative_interest(principal=78214, roi=6.5,
+                                                         start_date=date(self.this_year - 1, 4, 28),
                                                          end_date=date(self.this_year + 1, 5, 28)))
 
     def test_quarterly_interest(self):
-        # TODO - use current financial year instead of static values
-        self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10, start_date=date(self.this_year, 4, 1),
+        self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10,
+                                                     start_date=date(self.this_year, 4, 1),
                                                      end_date=date(self.this_year + 1, 4, 1)))
 
-        self.assertEqual(1625, get_quarterly_interest(principal=25000, roi=6.5, start_date=date(self.this_year - 1, 5, 15),
+        self.assertEqual(1625, get_quarterly_interest(principal=25000, roi=6.5,
+                                                      start_date=date(self.this_year - 1, 5, 15),
                                                       end_date=date(self.this_year + 2, 5, 15)))
+
 
 class TestPeriodBetween(TestCase):
 
