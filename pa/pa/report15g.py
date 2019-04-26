@@ -7,6 +7,10 @@ from dateutil.relativedelta import relativedelta
 Months = collections.namedtuple('Months', ['period'])
 Days = collections.namedtuple('Days', ['period'])
 
+def get_financial_year():
+    year = datetime.now().year
+    return year, year + 1
+
 
 def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, frequencyVal=4):
     # TODO - write tests for this function, refactor te function

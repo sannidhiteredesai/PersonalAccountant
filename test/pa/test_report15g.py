@@ -1,7 +1,16 @@
 from unittest import TestCase
 from pa.pa.report15g import *
+import pa.pa.report15g as report15g
 from datetime import date
-from datetime import datetime
+import datetime
+
+
+class MockDateTime(datetime.datetime):
+    @classmethod
+    def now(cls): return cls(2019, 1, 1)
+
+
+report15g.datetime = MockDateTime
 
 
 class TestInterest(TestCase):
@@ -11,26 +20,23 @@ class TestInterest(TestCase):
     # TODO      - start_date < fy and end_date < fy
     # TODO      - start_date > fy and end_date < fy
 
-    def setUp(self):
-        self.this_year = datetime.now().year
-
     def test_cumulative_interest(self):
         self.assertEqual(103.81, get_cumulative_interest(principal=1000, roi=10,
-                                                         start_date=date(self.this_year, 4, 1),
-                                                         end_date=date(self.this_year + 1, 4, 1)))
+                                                         start_date=date(2019, 4, 1),
+                                                         end_date=date(2020, 4, 1)))
 
         self.assertEqual(5529.3, get_cumulative_interest(principal=78214, roi=6.5,
-                                                         start_date=date(self.this_year - 1, 4, 28),
-                                                         end_date=date(self.this_year + 1, 5, 28)))
+                                                         start_date=date(2018, 4, 28),
+                                                         end_date=date(2020, 5, 28)))
 
     def test_quarterly_interest(self):
         self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10,
-                                                     start_date=date(self.this_year, 4, 1),
-                                                     end_date=date(self.this_year + 1, 4, 1)))
+                                                     start_date=date(2019, 4, 1),
+                                                     end_date=date(2020, 4, 1)))
 
         self.assertEqual(1625, get_quarterly_interest(principal=25000, roi=6.5,
-                                                      start_date=date(self.this_year - 1, 5, 15),
-                                                      end_date=date(self.this_year + 2, 5, 15)))
+                                                      start_date=date(2018, 5, 15),
+                                                      end_date=date(2021, 5, 15)))
 
 
 class TestPeriodBetween(TestCase):
@@ -62,3 +68,9 @@ class TestPeriodBetween(TestCase):
         self.assertEqual([Days(3),
                           Months(period=1),
                           Days(period=2)], get_period_between(date(2018, 12, 29), date(2019, 2, 3)))
+
+
+class TestFinancialYear(TestCase):
+    def test_get_financial_year(self):
+        self.assertEqual(2019, get_financial_year()[0])
+        self.assertEqual(2020, get_financial_year()[1])
