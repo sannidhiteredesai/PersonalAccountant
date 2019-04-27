@@ -1,35 +1,30 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block styles %}
-    {{ super() }}
-    <style>
-        .control-label{
-            float: left;
-            width: 0%;
-        }
-        #membername{
-            float: left;
-            width: 50%;
-        }
-    </style>
+{% block scripts %}
+{{ super() }}
+<script>
+        $( document ).ready(function() {
+            // If some error exists the modal should remain open
+            var errors = document.getElementsByClassName("has-error");
+            if (errors.length > 0) {
+                $('#addMember').modal('show');
+            }
+        });
+
+</script>
 {% endblock %}
 
 {% block app_content %}
 
 <div class="row">
     <div class="col-md-6">
-    {{ wtf.quick_form(form) }}
-    </div>
-</div>
-
-<br>
-<br>
-
-<div class="row">
-    <div class="col-md-6">
         <table class="table table-striped" id="members_table">
             {% if members %}
+            <h1>All Members:
+                <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+                   data-toggle="modal" data-target="#addMember"></i>
+            </h1>
             <thead>
             <tr>
                 <th>Member</th>
@@ -37,18 +32,42 @@
             </tr>
             </thead>
             <tbody>
-                {% for member in members %}
-                <tr>
-                    <td>{{member}}</td>
-                    <td>Edit, Delete</td>
-                </tr>
-                {% endfor %}
+            {% for member in members %}
+            <tr>
+                <td>{{member}}</td>
+                <td>Edit, Delete</td>
+            </tr>
+            {% endfor %}
             {% else %}
-                <p>No members found yet !!</p>
+            <p>
+                No members found yet !! Click here
+                <i class="fa fa-plus-circle" style="font-size: 35px; cursor: pointer;"
+                   data-toggle="modal" data-target="#addMember"></i>
+                to add new member
+            </p>
             {% endif %}
             </tbody>
         </table>
     </div>
+
+    <!-- Add fd Modal -->
+    <div class="modal fade" id="addMember" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please provide first name of member</h4>
+                </div>
+                <div class="modal-body">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

@@ -5,7 +5,7 @@ from pa.pa.member import Members
 from flask_login import current_user
 
 class MemberForm(FlaskForm):
-    membername = StringField('', validators=[DataRequired()])
+    membername = StringField('Member first name', validators=[DataRequired()])
     submit = SubmitField('Add new member')
 
     def validate_membername(self, membername):
