@@ -126,6 +126,7 @@ def calculate_bank_wise_interest(fds):
             bank_wise_details[fd['bank_name']] += [entry]
 
     bank_wise_details = collections.OrderedDict(sorted(bank_wise_details.items()))
+    for detail in bank_wise_details: bank_wise_details[detail].sort(key=lambda x: x[0])
     return bank_wise_details, total_interest_all_branches
 
 
