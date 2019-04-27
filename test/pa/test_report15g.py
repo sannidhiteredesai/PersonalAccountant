@@ -14,29 +14,58 @@ report15g.datetime = MockDateTime
 
 
 class TestInterest(TestCase):
-    # TODO - Add tests for following:
-    # TODO      - start_date < fy and end_date > fy
-    # TODO      - start_date > fy and end_date > fy
-    # TODO      - start_date < fy and end_date < fy
-    # TODO      - start_date > fy and end_date < fy
 
     def test_cumulative_interest(self):
+        # start_date = fy and end_date = next_fy
         self.assertEqual(103.81, get_cumulative_interest(principal=1000, roi=10,
                                                          start_date=date(2019, 4, 1),
                                                          end_date=date(2020, 4, 1)))
 
-        self.assertEqual(5529.3, get_cumulative_interest(principal=78214, roi=6.5,
-                                                         start_date=date(2018, 4, 28),
-                                                         end_date=date(2020, 5, 28)))
+        # start_date < fy and end_date < next_fy
+        self.assertEqual(8.27, get_cumulative_interest(principal=1000, roi=10,
+                                                       start_date=date(2019, 3, 29),
+                                                       end_date=date(2019, 5, 1)))
+
+        # start_date < fy and end_date > next_fy
+        self.assertEqual(103.9, get_cumulative_interest(principal=1000, roi=10,
+                                                        start_date=date(2019, 3, 29),
+                                                        end_date=date(2020, 5, 2)))
+
+        # start_date > fy and end_date < next_fy
+        self.assertEqual(21.62, get_cumulative_interest(principal=1000, roi=10,
+                                                        start_date=date(2019, 4, 20),
+                                                        end_date=date(2019, 7, 8)))
+
+        # start_date > fy and end_date > next_fy
+        self.assertEqual(98.06, get_cumulative_interest(principal=1000, roi=10,
+                                                        start_date=date(2019, 4, 20),
+                                                        end_date=date(2020, 5, 20)))
 
     def test_quarterly_interest(self):
+        # start_date = fy and end_date = next_fy
         self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10,
                                                      start_date=date(2019, 4, 1),
                                                      end_date=date(2020, 4, 1)))
 
-        self.assertEqual(1625, get_quarterly_interest(principal=25000, roi=6.5,
-                                                      start_date=date(2018, 5, 15),
-                                                      end_date=date(2021, 5, 15)))
+        # start_date < fy and end_date < next_fy
+        self.assertEqual(8.33, get_quarterly_interest(principal=1000, roi=10,
+                                                      start_date=date(2019, 3, 29),
+                                                      end_date=date(2019, 5, 1)))
+
+        # start_date < fy and end_date > next_fy
+        self.assertEqual(100, get_quarterly_interest(principal=1000, roi=10,
+                                                     start_date=date(2019, 3, 29),
+                                                     end_date=date(2020, 5, 2)))
+
+        # start_date > fy and end_date < next_fy
+        self.assertEqual(21.6, get_quarterly_interest(principal=1000, roi=10,
+                                                      start_date=date(2019, 4, 20),
+                                                      end_date=date(2019, 7, 8)))
+
+        # start_date > fy and end_date > next_fy
+        self.assertEqual(94.68, get_quarterly_interest(principal=1000, roi=10,
+                                                       start_date=date(2019, 4, 20),
+                                                       end_date=date(2020, 5, 20)))
 
 
 class TestPeriodBetween(TestCase):
