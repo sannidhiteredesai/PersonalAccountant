@@ -120,10 +120,10 @@ def calculate_bank_wise_interest(fds):
         total_interest_all_branches += interest
 
         entry = (fd['fd_number'], 'Interest', '194A', interest)
-        if (fd['bank_name'], fd['bank_branch']) not in bank_wise_details:
-            bank_wise_details[(fd['bank_name'], fd['bank_branch'])] = [entry]
+        if fd['bank_name'] not in bank_wise_details:
+            bank_wise_details[fd['bank_name']] = [entry]
         else:
-            bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
+            bank_wise_details[fd['bank_name']] += [entry]
 
     bank_wise_details = collections.OrderedDict(sorted(bank_wise_details.items()))
     return bank_wise_details, total_interest_all_branches
@@ -137,8 +137,7 @@ def get_formatted_report(bank_wise_details, total_interest_all_branches):
     for bank_and_branch, fds in bank_wise_details.items():
         this_branch_interest = sum(map(lambda x: x[3], fds))
         formatted_15g_report_details.append({
-            'bank_name': bank_and_branch[0],
-            'bank_branch': bank_and_branch[1],
+            'bank_name': bank_and_branch,
             'income_in_this_declaration': round(this_branch_interest, 2),
             'total_income_in_fy': round(total_interest_all_branches, 2),
             'other_15g_form_count': total_15g_forms - this_15g_form,
