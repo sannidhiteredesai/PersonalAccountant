@@ -7,27 +7,28 @@ from dateutil.relativedelta import relativedelta
 Months = collections.namedtuple('Months', ['period'])
 Days = collections.namedtuple('Days', ['period'])
 
+
 def get_financial_year():
     year = datetime.now().year
     return year, year + 1
 
 
-def calculate_maturity_amount(principal, roi, period, tenurePeriodVal=12, frequencyVal=4):
-    # TODO - write tests for this function, refactor te function
+def calculate_maturity_amount(principal, roi, period, tenure_period_in, interest_type):
+    tenure_period = 12 if tenure_period_in == 'months' else 365
+    frequency_val = 0 if interest_type == 'quarterly' else 4
+    frequency_val = 0 if period < 90 and tenure_period == 365 else frequency_val
 
-    if period < 90 and tenurePeriodVal == 365:
-        frequencyVal = 0
-
-    if frequencyVal == 0:  # Simple Interest
-        fdMatVal = principal * (1 + ((roi * period) / (tenurePeriodVal * 100)))
-
-    else:  # Compound Interest
-        val1 = 1 + roi / (100 * frequencyVal)
-        val2 = (period * frequencyVal / tenurePeriodVal)
+    if frequency_val == 0:
+        # Simple Interest
+        maturity_value = principal * (1 + ((roi * period) / (tenure_period * 100)))
+    else:
+        # Compound Interest
+        val1 = 1 + roi / (100 * frequency_val)
+        val2 = (period * frequency_val / tenure_period)
         val3 = pow(val1, val2)
-        fdMatVal = (principal * val3)
+        maturity_value = (principal * val3)
 
-    return round(fdMatVal, 2)
+    return round(maturity_value, 2)
 
 
 def get_period_between(date1, date2):  # Including date1 & Excluding date2
@@ -59,17 +60,17 @@ def get_principal_at_end_of_period(principal, roi, period_before_fy):
     for period in period_before_fy:
         if isinstance(period, Days):
             principal = calculate_maturity_amount(principal=principal, roi=roi, period=period.period,
-                                                  tenurePeriodVal=365, frequencyVal=4)
+                                                  tenure_period_in='days', interest_type='cumulative')
         if isinstance(period, Months):
             principal = calculate_maturity_amount(principal=principal, roi=roi, period=period.period,
-                                                  tenurePeriodVal=12, frequencyVal=4)
+                                                  tenure_period_in='months', interest_type='cumulative')
     return principal
 
 
 def get_cumulative_interest(principal, roi, start_date, end_date):
-    year = datetime.now().year
-    fy_start = date(year, 4, 1)
-    next_fy_start = date(year + 1, 4, 1)
+    fy = get_financial_year()
+    fy_start = date(fy[0], 4, 1)
+    next_fy_start = date(fy[1], 4, 1)
 
     relative_fd_start = fy_start if start_date < fy_start else start_date
     relative_fd_end = next_fy_start if end_date >= next_fy_start else end_date
@@ -82,9 +83,9 @@ def get_cumulative_interest(principal, roi, start_date, end_date):
 
 
 def get_quarterly_interest(principal, roi, start_date, end_date):
-    year = datetime.now().year
-    fy_start = date(year, 4, 1)
-    next_fy_start = date(year + 1, 4, 1)
+    fy = get_financial_year()
+    fy_start = date(fy[0], 4, 1)
+    next_fy_start = date(fy[1], 4, 1)
 
     relative_fd_start = fy_start if start_date < fy_start else start_date
     relative_fd_end = next_fy_start if end_date >= next_fy_start else end_date
@@ -93,28 +94,20 @@ def get_quarterly_interest(principal, roi, start_date, end_date):
     interest = 0
     for p in period:
         if isinstance(p, Months):
-            interest += calculate_maturity_amount(principal=principal,
-                                                  roi=roi,
-                                                  period=p.period,
-                                                  tenurePeriodVal=12,
-                                                  frequencyVal=0) - principal
+            interest += calculate_maturity_amount(principal=principal, roi=roi, period=p.period,
+                                                  tenure_period_in='months',
+                                                  interest_type='quarterly') - principal
         elif isinstance(p, Days):
-            interest += calculate_maturity_amount(principal=principal,
-                                                  roi=roi,
-                                                  period=p.period,
-                                                  tenurePeriodVal=365,
-                                                  frequencyVal=0) - principal
+            interest += calculate_maturity_amount(principal=principal, roi=roi, period=p.period,
+                                                  tenure_period_in='days',
+                                                  interest_type='quarterly') - principal
     return round(interest, 2)
 
 
-def generate_15g_report(for_member, for_user):
-    # TODO - refactoring
-    fds = FDs()
-    fds_for_member = fds.get_fds_with_first_name(first_name=for_member, for_user=for_user)
-
-    bank_wise_details = {}
+def calculate_bank_wise_interest(fds):
     total_interest_all_branches = 0
-    for fd in fds_for_member:
+    bank_wise_details = {}
+    for fd in fds:
         if fd['type'] == 'Cumulative':
             interest = get_cumulative_interest(principal=fd['principal_amount'], roi=fd['roi'],
                                                start_date=datetime.strptime(fd['start_date'], "%Y%m%d").date(),
@@ -133,10 +126,14 @@ def generate_15g_report(for_member, for_user):
             bank_wise_details[(fd['bank_name'], fd['bank_branch'])] += [entry]
 
     bank_wise_details = collections.OrderedDict(sorted(bank_wise_details.items()))
+    return bank_wise_details, total_interest_all_branches
 
+
+def get_formatted_report(bank_wise_details, total_interest_all_branches):
     total_15g_forms = len(bank_wise_details)
     this_15g_form = 1
     formatted_15g_report_details = []
+
     for bank_and_branch, fds in bank_wise_details.items():
         this_branch_interest = sum(map(lambda x: x[3], fds))
         formatted_15g_report_details.append({
@@ -152,5 +149,8 @@ def generate_15g_report(for_member, for_user):
     return formatted_15g_report_details
 
 
-if __name__ == '__main__':
-    generate_15g_report(for_member='aa', for_user='u')
+def generate_15g_report(for_member, for_user):
+    fds = FDs()
+    fds_for_member = fds.get_fds_with_first_name(first_name=for_member, for_user=for_user)
+    bank_wise_details, total_interest_all_branches = calculate_bank_wise_interest(fds_for_member)
+    return get_formatted_report(bank_wise_details, total_interest_all_branches)
