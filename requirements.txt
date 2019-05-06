@@ -7,4 +7,5 @@ pytest==3.8.1
 pytest-cov==2.6.0
 python-dateutil==2.6.1
 python-dotenv==0.7.1
+selenium==3.141.0
 tinydb==3.12.2

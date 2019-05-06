@@ -1,0 +1,13 @@
+{
+    "_default": {},
+    "users": {
+        "1": {
+            "username": "validusername",
+            "password": "pbkdf2:sha256:50000$gD6BnoBy$23922c2eee3925197a009afc4564e651b1534549ca055b76c9a5ebe2030ba156",
+            "mobile": 1234567890,
+            "dob": "01/01/2019",
+            "secret_question": "BIRTH_PLACE",
+            "answer": "somecity"
+        }
+    }
+}
