@@ -6,5 +6,6 @@ __pycache__
 *.spec
 .env
 db.json
+debug.log
 notes.txt
 entry.py
