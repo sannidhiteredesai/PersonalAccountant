@@ -31,4 +31,5 @@ def step_impl(context):
 
 @then(u'login fails')
 def step_impl(context):
-    assert 'Unable to login, invalid username or password !!' in context.browser.page_source
+    alert = context.browser.find_element_by_class_name("alert").text
+    assert 'Unable to login, invalid username or password !!' in alert
