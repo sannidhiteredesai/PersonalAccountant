@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+        $( document ).ready(function() {
+            // If some error exists the modal should remain open
+            var errors = document.getElementsByClassName("has-error");
+            if (errors.length > 0) {
+                $('#addMember').modal('show');
+            }
+        });
+
+</script>
+{% endblock %}
+
+{% block app_content %}
+
+Hello world !!
+
+{% endblock %}

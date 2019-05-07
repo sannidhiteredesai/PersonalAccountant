@@ -7,6 +7,7 @@ from pa.ui.members import routes
 from pa.ui.bank import routes
 from pa.ui.fd import routes
 from pa.ui.report15g import routes
+from pa.ui.notifications import routes
 
 @app.route('/')
 @login_required
