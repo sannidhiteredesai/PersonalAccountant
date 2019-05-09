@@ -7,8 +7,8 @@ from pa.pa.member import Members
 from pa.pa.fd import FDs
 
 
-@login_required
 @app.route('/fd', methods=['GET', 'POST'])
+@login_required
 def fd():
     fds = FDs()
     banks = Banks()
@@ -42,8 +42,8 @@ def fd():
                            fds=fds.get_all_fds(current_user.username), branches=bank_branches)
 
 
-@login_required
 @app.route('/deleteFD/<fd_number>/<bank_name>/<bank_branch>', methods=['GET'])
+@login_required
 def delete_fd(fd_number, bank_name, bank_branch):
     fds = FDs()
     fds.delete_fd(fd_number=fd_number, bank_name=bank_name, bank_branch=bank_branch, for_user=current_user.username)

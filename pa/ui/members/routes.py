@@ -4,8 +4,9 @@ from pa.ui import app
 from pa.ui.members.forms import MemberForm
 from pa.pa.member import Members
 
-@login_required
+
 @app.route('/allMembers', methods=['GET', 'POST'])
+@login_required
 def allMembers():
     members = Members()
 

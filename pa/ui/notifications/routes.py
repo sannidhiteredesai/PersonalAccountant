@@ -3,7 +3,7 @@ from flask_login import login_required
 from pa.ui import app
 
 
-@login_required
 @app.route('/notifications', methods=['GET'])
+@login_required
 def notifications():
     return render_template('notifications/notifications.html', title='Notifications')

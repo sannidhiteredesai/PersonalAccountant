@@ -5,8 +5,8 @@ from pa.ui.bank.forms import AddBankBranchForm
 from pa.pa.bank import Banks
 
 
-@login_required
 @app.route('/bank', methods=['GET', 'POST'])
+@login_required
 def bank():
     banks = Banks()
     form = AddBankBranchForm()
@@ -24,8 +24,8 @@ def bank():
                            banks=banks.get_all_banks(for_user=current_user.username))
 
 
-@login_required
 @app.route('/deleteBankBranch/<bank>/<branch>', methods=['GET'])
+@login_required
 def delete_bank_branch(bank, branch):
     banks = Banks()
     banks.delete_bank_branch(bank_name=bank, bank_branch=branch, username=current_user.username)

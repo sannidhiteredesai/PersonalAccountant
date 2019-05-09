@@ -5,8 +5,8 @@ from pa.pa.member import Members
 from pa.pa.report15g import generate_15g_report, get_financial_year
 
 
-@login_required
 @app.route('/report15g', methods=['GET', 'POST'])
+@login_required
 def report_15g():
     members = Members()
 
