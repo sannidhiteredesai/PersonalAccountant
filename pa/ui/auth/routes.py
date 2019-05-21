@@ -16,7 +16,7 @@ def unauthorized_callback():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -37,14 +37,14 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     form = LoginForm()
     if form.validate_on_submit():
 
         if Users().are_valid_credentials(username=form.username.data, password=form.password.data):
             login_user(LoginUser(username=form.username.data))
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
 
         flash('Unable to login, invalid username or password !!')
         return redirect(url_for('login'))

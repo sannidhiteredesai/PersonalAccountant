@@ -9,7 +9,7 @@ from pa.ui.fd import routes
 from pa.ui.report15g import routes
 from pa.ui.notifications import routes
 
-@app.route('/')
+@app.route('/home')
 @login_required
-def index():
-    return render_template('index/index.html', username=current_user.username)
+def home():
+    return render_template('index/home.html', username=current_user.username)
