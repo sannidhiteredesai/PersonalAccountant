@@ -9,5 +9,58 @@
             "secret_question": "BIRTH_PLACE",
             "answer": "somecity"
         }
+    },
+    "fds": {
+        "1": {
+            "bank_name": "Bank1",
+            "bank_branch": "Branch1",
+            "first_name": "FirstName1",
+            "joint_name": "JointName1",
+            "mode": "Ei/Sur",
+            "type": "Quarterly",
+            "interest_account": "Account1",
+            "fd_number": "FDNumber1",
+            "start_date": "20171010",
+            "end_date": "20181010",
+            "period": "1 year",
+            "roi": 6.65,
+            "principal_amount": 25288.0,
+            "maturity_amount": 26969.0,
+            "username": "validusername"
+        },
+        "2": {
+            "bank_name": "Bank2",
+            "bank_branch": "Branch2",
+            "first_name": "FirstName2",
+            "joint_name": "JointName2",
+            "mode": "Ei/Sur",
+            "type": "Quarterly",
+            "interest_account": "Account2",
+            "fd_number": "FDNumber2",
+            "start_date": "20171010",
+            "end_date": "20181010",
+            "period": "1 year",
+            "roi": 6.65,
+            "principal_amount": 25288.0,
+            "maturity_amount": 26969.0,
+            "username": "validusername"
+        },
+        "3": {
+            "bank_name": "Bank3",
+            "bank_branch": "Branch3",
+            "first_name": "FirstName3",
+            "joint_name": "JointName3",
+            "mode": "Ei/Sur",
+            "type": "Quarterly",
+            "interest_account": "Account3",
+            "fd_number": "FDNumber3",
+            "start_date": "20171010",
+            "end_date": "20181010",
+            "period": "1 year",
+            "roi": 6.65,
+            "principal_amount": 25288.0,
+            "maturity_amount": 26969.0,
+            "username": "validusername"
+        }
     }
 }
