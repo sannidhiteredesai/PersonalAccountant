@@ -1,6 +1,8 @@
 from behave import *
 
 
-@then(u'I see the fds that are maturing till next 40 days')
+@then(u'I see the fds that are maturing till next 45 days')
 def step_impl(context):
-    raise NotImplementedError(u'STEP: Then I see the fds that are maturing till next 40 days')
+    print(context.browser.page_source)
+    print(context.browser.page_source.count('FD Matured'))
+    assert 3 == context.browser.page_source.count('FD Matured')
