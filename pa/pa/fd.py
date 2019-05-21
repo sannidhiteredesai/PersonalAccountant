@@ -18,6 +18,13 @@ class FDs:
             del fd['username']
         return fds
 
+    def get_all_fds_till_date(self, for_user, till_date):
+        fds = self.fds.get_all_fds_till_date(for_user=for_user, till_date=till_date)
+        for fd in fds:
+            del fd['username']
+        fds.sort(key=lambda x:x['end_date'])
+        return fds
+
     def get_fds_with_first_name(self, first_name, for_user):
         fds = self.fds.get_fds_with_first_name(first_name=first_name, for_user=for_user)
         for fd in fds:

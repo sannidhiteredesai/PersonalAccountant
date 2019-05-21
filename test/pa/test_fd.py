@@ -94,6 +94,36 @@ class TestFD(TestCase):
         self.assertEqual([fd1_without_username, fd2_without_username, fd3_without_username],
                          fds.get_all_fds(for_user='u1'))
 
+    @patch('pa.db.fd.FdDB.get_all_fds_till_date')
+    def test_get_all_fds_till_date(self, mock_get_all_fds_till_date):
+        fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName', 'joint_name': '',
+               'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
+               'start_date': '20190101', 'end_date': '20190501', 'period': '1 year 1 day', 'roi': 8.25,
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+
+        fd2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName', 'joint_name': '',
+               'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
+               'start_date': '20190101', 'end_date': '20190511', 'period': '1 year 1 day', 'roi': 8.25,
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+
+        fd1_without_username = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'FirstName',
+                                'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
+                                'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
+                                'start_date': '20190101', 'end_date': '20190501', 'period': '1 year 1 day',
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
+
+        fd2_without_username = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'FirstName',
+                                'joint_name': '', 'mode': 'Ei/Sur', 'type': 'Quarterly',
+                                'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
+                                'start_date': '20190101', 'end_date': '20190511', 'period': '1 year 1 day',
+                                'roi': 8.25, 'principal_amount': 5000.0, 'maturity_amount': 5000.0, }
+
+        fds = FDs(TestConfig)
+        mock_get_all_fds_till_date.return_value = [fd1, fd2]
+        self.assertEqual([fd1_without_username, fd2_without_username],
+                         fds.get_all_fds_till_date(for_user='u1', till_date='20190511'))
+
+
     @patch('pa.db.fd.FdDB.get_fds_with_first_name')
     def test_get_fds_with_first_name(self, mock_get_fds_with_first_name):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': '',

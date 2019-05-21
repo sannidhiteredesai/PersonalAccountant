@@ -13,6 +13,10 @@ class FdDB:
     def get_all_fds(self, for_user):
         return self.db.search(Query().username == for_user)
 
+    def get_all_fds_till_date(self, for_user, till_date):
+        print(self.get_all_fds(for_user))
+        return self.db.search((where('end_date') <= till_date) & (where('username') == for_user))
+
     def get_fds_with_first_name(self, first_name, for_user):
         return self.db.search((where('first_name') == first_name) & (where('username') == for_user))
 
