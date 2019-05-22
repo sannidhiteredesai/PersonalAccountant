@@ -57,6 +57,6 @@ def logout():
     if current_user.is_authenticated:
         user = current_user.username
         logout_user()
-        return render_template('auth/logout.html', user=user)
+        return redirect(url_for('index'))
 
     return redirect(url_for('login'))

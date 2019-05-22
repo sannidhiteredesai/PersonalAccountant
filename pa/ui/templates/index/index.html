@@ -1,1 +1,69 @@
-Welcome Page !!
+<!DOCTYPE html>
+<html>
+<title>Personal Accountant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1,h2{font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+p {line-height: 2}
+.bgimg, .bgimg2 {
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+.bgimg {background-image: url("/static/images/background.jpg")}
+.bgimg2 {background-image: url("/w3images/flowers.jpg")}
+
+
+</style>
+<body>
+
+<!-- Header / Home-->
+<header class="w3-display-container w3-wide bgimg" id="home">
+    <div class="w3-display-middle w3-text-white w3-center">
+    <span style="color: black;">
+      <h1 class="w3-jumbo" style="font-weight: 900;">Personal Accountant</h1>
+      <h3>Manage your accounts seamlessly</h3>
+    </span>
+    </div>
+</header>
+
+<!-- Navbar (sticky bottom) -->
+<div class="w3-bottom w3-hide-small">
+    <div class="w3-bar w3-white w3-center w3-padding w3-opacity-min w3-hover-opacity-off">
+        <span style="font-weight: 900; font-size: 20px;">
+        <a href="{{ url_for('login') }}" style="width:50%" class="w3-bar-item w3-button w3-hover-black">Login</a>
+        <a href="{{ url_for('register') }}" style="width:49.5%"
+           class="w3-bar-item w3-button w3-hover-black">Register</a>
+        </span>
+    </div>
+</div>
+
+<!-- About -->
+<div class="w3-container w3-padding-64 w3-dark-grey w3-grayscale-min" id="us">
+    <div class="w3-content">
+        <h1 class="w3-center"><b>Personal Accountant</b></h1>
+        <!--<img class="w3-round w3-grayscale-min" src="/static/images/background.jpg" style="width:100%;margin:32px 0">-->
+        <p>
+            <i>Personal Accountant brings following features for you :
+                <ul>
+                    <li>View all your Saving Accounts</li>
+                    <br>
+                    <li>View all your FDs</li>
+                    <br>
+                    <li>View the 15g report</li>
+                    <br>
+                    <li>Notifications regarding FDs maturing in next 45 days</li>
+                    <br>
+                </ul>
+            </i>
+        </p>
+        <br>
+    </div>
+</div>
+
+</body>
+</html>
