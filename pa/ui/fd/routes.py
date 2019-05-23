@@ -5,6 +5,7 @@ from pa.ui.fd.forms import FDForm
 from pa.pa.bank import Banks
 from pa.pa.member import Members
 from pa.pa.fd import FDs
+from .format import append_serial_number
 
 
 @app.route('/fd', methods=['GET', 'POST'])
@@ -39,6 +40,7 @@ def fd():
         return redirect(url_for('fd'))
 
     all_fds = fds.get_all_fds(current_user.username)
+    append_serial_number(all_fds)
     return render_template('fd/fd.html', title='Fixed Deposits', form=form,
                            fds=all_fds, branches=bank_branches,
                            total_fds=len(all_fds))

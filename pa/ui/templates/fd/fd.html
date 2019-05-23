@@ -72,6 +72,7 @@
                 <table class="table table-striped" id="fds_table">
                     <thead>
                     <tr>
+                        <th>Sr. No.</th>
                         <th>Bank</th>
                         <th>Branch</th>
                         <th>First Name</th>
@@ -91,6 +92,7 @@
                     <tbody>
                         {% for fd in fds %}
                         <tr>
+                            <td>{{fd.serial_number}}.</td>
                             <td>{{fd.bank_name}}</td>
                             <td>{{fd.bank_branch}}</td>
                             <td>{{fd.first_name}}</td>
