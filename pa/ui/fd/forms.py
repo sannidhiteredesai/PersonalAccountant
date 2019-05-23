@@ -22,7 +22,8 @@ def FDForm(banks, members):
                                  choices=[('', 'Select')] + [(m, m) for m in members])
 
         mode = SelectField('Mode of Operation',
-                           choices=[('Ei/Sur', 'Ei/Sur'), ('Single', 'Single'), ('Natural Guardian', 'Natural Guardian')],
+                           choices=[('Ei/Sur', 'Ei/Sur'), ('Single', 'Single'), ('Natural Guardian', 'Natural Guardian'),
+                                    ('Self/Proprietor', 'Self/Proprietor')],
                            validators=[DataRequired()])
 
         type = SelectField('Type',
