@@ -38,8 +38,10 @@ def fd():
         flash('New FD added successfully !!')
         return redirect(url_for('fd'))
 
+    all_fds = fds.get_all_fds(current_user.username)
     return render_template('fd/fd.html', title='Fixed Deposits', form=form,
-                           fds=fds.get_all_fds(current_user.username), branches=bank_branches)
+                           fds=all_fds, branches=bank_branches,
+                           total_fds=len(all_fds))
 
 
 @app.route('/deleteFD/<fd_number>/<bank_name>/<bank_branch>', methods=['GET'])
