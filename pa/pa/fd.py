@@ -22,7 +22,7 @@ class FDs:
         fds = self.fds.get_all_fds_till_date(for_user=for_user, till_date=till_date)
         for fd in fds:
             del fd['username']
-        fds.sort(key=lambda x:x['end_date'])
+        fds.sort(key=lambda x: x['end_date'])
         return fds
 
     def get_fds_with_first_name(self, first_name, for_user):
@@ -37,3 +37,6 @@ class FDs:
     @staticmethod
     def date_to_str(datetime_object):
         return datetime_object.strftime("%Y%m%d")
+
+    def fds_exists_for_member(self, member, for_user):
+        return self.fds.fds_exists_for_member(member=member, for_user=for_user)

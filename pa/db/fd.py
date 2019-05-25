@@ -25,3 +25,7 @@ class FdDB:
                        (where('bank_name') == bank_name) &
                        (where('bank_branch') == bank_branch) &
                        (where('username') == for_user))
+
+    def fds_exists_for_member(self, member, for_user):
+        return bool(self.db.search(((where('first_name') == member) | (where('joint_name') == member)) &
+                    (where('username') == for_user)))

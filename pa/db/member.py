@@ -1,4 +1,4 @@
-from tinydb import Query
+from tinydb import Query, where
 from pa import get_db
 from pa.config import Config
 
@@ -17,3 +17,6 @@ class MemberDB:
     def get_members(self, for_user):
         users = self.db.search(Query().username == for_user)
         return users
+
+    def delete(self, member, for_user):
+        self.db.remove((where('membername') == member) & (where('username') == for_user))

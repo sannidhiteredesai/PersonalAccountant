@@ -25,3 +25,9 @@ class TestUserDB(TestCase):
         self.members.add(member='m2', for_user='u1')
         self.assertEqual(self.members.get_members(for_user='u1'), [{'membername': 'm1', 'username': 'u1'},
                                                                     {'membername': 'm2', 'username': 'u1'}])
+
+    def test_delete_member(self):
+        self.members.add(member='m1', for_user='u1')
+        self.members.add(member='m2', for_user='u1')
+        self.members.delete(member='m1', for_user='u1')
+        self.assertEqual(self.members.get_members(for_user='u1'), [{'membername': 'm2', 'username': 'u1'}])

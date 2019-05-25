@@ -54,3 +54,9 @@ class TestMember(TestCase):
 
         mock_get_members.return_value = []
         self.assertEqual([], members.get_members_of_user('u3'))
+
+    @patch('pa.db.member.MemberDB.delete')
+    def test_delete_member(self, mock_delete):
+        members = Members(config=TestConfig)
+        members.delete(member='m1', for_user='u1')
+        mock_delete.assert_called_with(member='m1', for_user='u1')

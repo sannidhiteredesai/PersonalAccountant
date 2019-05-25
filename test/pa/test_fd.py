@@ -123,7 +123,6 @@ class TestFD(TestCase):
         self.assertEqual([fd1_without_username, fd2_without_username],
                          fds.get_all_fds_till_date(for_user='u1', till_date='20190511'))
 
-
     @patch('pa.db.fd.FdDB.get_fds_with_first_name')
     def test_get_fds_with_first_name(self, mock_get_fds_with_first_name):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': '',
@@ -158,3 +157,9 @@ class TestFD(TestCase):
         fds = FDs(TestConfig)
         fds.delete_fd(fd_number='fd1', bank_name='b1', bank_branch='br1', for_user='u1')
         mock_delete.assert_called_with(fd_number='fd1', bank_name='b1', bank_branch='br1', for_user='u1')
+
+    @patch('pa.db.fd.FdDB.fds_exists_for_member')
+    def test_fds_exists_for_member(self, mock_fds_exists_for_member):
+        fds = FDs(TestConfig)
+        fds.fds_exists_for_member(member='m1', for_user='u1')
+        mock_fds_exists_for_member.assert_called_with(member='m1', for_user='u1')

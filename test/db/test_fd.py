@@ -57,7 +57,6 @@ class TestFdDB(TestCase):
 
         self.assertEqual([fd1, fd3], self.fds.get_fds_with_first_name(first_name='Name1', for_user='u1'))
 
-
     def test_get_fds_till_date(self):
         fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': '',
                'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
@@ -97,3 +96,28 @@ class TestFdDB(TestCase):
 
         self.fds.delete_fd(fd_number='fd2', bank_name='bank1', bank_branch='branch2', for_user='u1')
         self.assertEqual([fd1_u1], self.fds.get_all_fds(for_user='u1'))
+
+    def test_fds_exists_for_member(self):
+        fd1 = {'bank_name': 'bank1', 'bank_branch': 'branch1', 'first_name': 'Name1', 'joint_name': 'Name2',
+               'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber1', 'fd_number': 'FdNumber1',
+               'start_date': '20190101', 'end_date': '20190510', 'period': '1 year 1 day', 'roi': 8.25,
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+
+        fd2 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name1', 'joint_name': 'Name3',
+               'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber2',
+               'start_date': '20190101', 'end_date': '20190511', 'period': '1 year 1 day', 'roi': 8.25,
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+
+        fd3 = {'bank_name': 'bank2', 'bank_branch': 'branch2', 'first_name': 'Name3', 'joint_name': 'Name2',
+               'mode': 'Ei/Sur', 'type': 'Quarterly', 'interest_account': 'accountNumber2', 'fd_number': 'FdNumber3',
+               'start_date': '20190101', 'end_date': '20190512', 'period': '1 year 1 day', 'roi': 8.25,
+               'principal_amount': 5000.0, 'maturity_amount': 5000.0, 'username': 'u1', }
+
+        self.fds.add(new_fd=fd1)
+        self.assertFalse(self.fds.fds_exists_for_member(member='Name3', for_user='u1'))
+
+        self.fds.add(new_fd=fd2)
+        self.assertTrue(self.fds.fds_exists_for_member(member='Name3', for_user='u1'))
+
+        self.fds.add(new_fd=fd3)
+        self.assertTrue(self.fds.fds_exists_for_member(member='Name3', for_user='u1'))

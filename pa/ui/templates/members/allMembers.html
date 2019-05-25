@@ -12,6 +12,14 @@
             }
         });
 
+        function delMember(member){
+            var txt;
+            var r = confirm("Delete member( "+member+" ). Do you want to continue ?");
+            if (r == true) {
+                window.location.href = '/deleteMember/'+member
+            }
+        }
+
 </script>
 {% endblock %}
 
@@ -48,7 +56,8 @@
                 <td>{{member}}</td>
                 <td>
                     <span onclick=""><i class="fa fa-pencil" style="color:darkblue;"></i></span>
-                    <span><i class="fa fa-remove" style="color:red;"></i>
+                    <span onclick="delMember('{{member}}')">
+                        <i class="fa fa-remove" style="color:red;"></i>
                     </span>
                 </td>
             </tr>

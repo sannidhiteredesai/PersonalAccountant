@@ -18,3 +18,6 @@ class Members:
             if 'membername' in member:
                 members.append(member['membername'])
         return sorted(members)
+
+    def delete(self, member, for_user):
+        self.members.delete(member=member, for_user=for_user)
