@@ -15,6 +15,17 @@
 </script>
 {% endblock %}
 
+{% block styles %}
+    {{ super() }}
+    <style>
+        i{
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+    </style>
+{% endblock %}
+
 {% block app_content %}
 
 <div class="row">
@@ -35,7 +46,11 @@
             {% for member in members %}
             <tr>
                 <td>{{member}}</td>
-                <td>Edit, Delete</td>
+                <td>
+                    <span onclick=""><i class="fa fa-pencil" style="color:darkblue;"></i></span>
+                    <span><i class="fa fa-remove" style="color:red;"></i>
+                    </span>
+                </td>
             </tr>
             {% endfor %}
             {% else %}
